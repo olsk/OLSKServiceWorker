@@ -1,0 +1,5 @@
+{
+  "name": "OLSKServiceWorker",
+  "private": true,
+  "main": "main.js"
+}
