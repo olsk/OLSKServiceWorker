@@ -2,28 +2,28 @@ const { throws, deepEqual } = require('assert');
 
 const mainModule = require('./main.js');
 
-describe('OLSKServiceWorkerViewForVersionID', function testOLSKServiceWorkerViewForVersionID() {
+describe('OLSKServiceWorkerView', function testOLSKServiceWorkerView() {
 
 	it('throws if not string', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerViewForVersionID(null);
+			mainModule.OLSKServiceWorkerView(null);
 		}, /OLSKrrorInputInvalid/);
 	});
 
 	it('throws if not filled', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerViewForVersionID('');
+			mainModule.OLSKServiceWorkerView('');
 		}, /OLSKrrorInputInvalid/);
 	});
 
 	it('throws if contains whitespace', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerViewForVersionID('alfa bravo');
+			mainModule.OLSKServiceWorkerView('alfa bravo');
 		}, /OLSKrrorInputInvalid/);
 	});
 
 	it('returns function body', function() {
-		deepEqual(mainModule.OLSKServiceWorkerViewForVersionID('alfa'), mainModule._OLSKServiceWorkerTemplate.toString().replace('{ OLSKServiceWorkerVersionID }', 'alfa').replace('function () {', '').trim().slice(0, -1));
+		deepEqual(mainModule.OLSKServiceWorkerView('alfa'), mainModule._OLSKServiceWorkerTemplate.toString().replace('{ OLSKServiceWorkerVersionID }', 'alfa').replace('function () {', '').trim().slice(0, -1));
 	});
 
 });

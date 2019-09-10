@@ -70,7 +70,7 @@
 		  }
 		});
 	},
-	OLSKServiceWorkerViewForVersionID: function (inputData) {
+	OLSKServiceWorkerView: function (inputData) {
 		if (typeof inputData !== 'string') {
 			throw new Error('OLSKrrorInputInvalid');
 		}
