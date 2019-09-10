@@ -4,7 +4,7 @@
 	(factory((global.OLSKServiceWorker = global.OLSKServiceWorker || {})));
 }(this, (function (exports) { 'use strict'; Object.defineProperty(exports, '__esModule', { value: true }); let mod = {}; Object.assign(exports, mod = {
 	_OLSKServiceWorkerTemplate: function () {
-		const cacheName = `OLSKServiceWorkerCache-{ OLSKServiceWorkerVersionID }`;
+		const cacheName = 'OLSKServiceWorkerCache-VERSION_ID_TOKEN';
 
 		self.addEventListener('activate', function (event) {
 			console.log('activate', event);
@@ -83,6 +83,6 @@
 			throw new Error('OLSKrrorInputInvalid');
 		}
 
-		return mod._OLSKServiceWorkerTemplate.toString().replace('{ OLSKServiceWorkerVersionID }', inputData).replace('function () {', '').trim().slice(0, -1);
+		return mod._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', inputData).replace('function () {', '').trim().slice(0, -1);
 	},
 }); })));
