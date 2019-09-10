@@ -16,19 +16,7 @@ describe('OLSKServiceWorkerViewForVersionID', function testOLSKServiceWorkerView
 		}, /OLSKrrorInputInvalid/);
 	});
 
-	it('throws if contains leading whitespace', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerViewForVersionID(' alfa');
-		}, /OLSKrrorInputInvalid/);
-	});
-
-	it('throws if contains trailing whitespace', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerViewForVersionID('alfa ');
-		}, /OLSKrrorInputInvalid/);
-	});
-
-	it('throws if contains middle whitespace', function() {
+	it('throws if contains whitespace', function() {
 		throws(function() {
 			mainModule.OLSKServiceWorkerViewForVersionID('alfa bravo');
 		}, /OLSKrrorInputInvalid/);
