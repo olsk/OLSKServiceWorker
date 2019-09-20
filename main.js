@@ -31,12 +31,8 @@
 				return console.log('ignoring cors', event.request);
 			}
 
-			if (!event.request.referrer && !event.request.url.match(/REFERRER_MATCH_TOKEN/)) {
-				return console.log('ignoring referrer root', event.request);
-			};
-
-			if (event.request.referrer && !event.request.referrer.match(/REFERRER_MATCH_TOKEN/)) {
-				return console.log('ignoring referrer child', event.request);
+			if (!(event.request.referrer.match(/REFERRER_MATCH_TOKEN/) && event.request.mode === 'no-cors') && !event.request.url.match(/REFERRER_MATCH_TOKEN/)) {
+				return console.log('ignoring referrer', event.request);
 			};
 
 			event.respondWith(async function() {
@@ -91,6 +87,6 @@
 			throw new Error('OLSKrrorInputInvalid');
 		}
 
-		return mod._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', inputData.VERSION_ID_TOKEN).replace('REFERRER_MATCH_TOKEN', inputData.REFERRER_MATCH_TOKEN).replace('function () {', '').trim().slice(0, -1);
+		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('function () {', '').trim().slice(0, -1);
 	},
 }); })));
