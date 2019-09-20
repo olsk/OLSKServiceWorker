@@ -31,21 +31,13 @@
 				return console.log('ignoring cors', event.request);
 			}
 
-			if (event.request.referrer && !event.request.referrer.match(/REFERRER_MATCH_TOKEN/)) {
-				return console.log('ignoring referrer', event.request);
+			if (!event.request.referrer && !event.request.url.match(/REFERRER_MATCH_TOKEN/)) {
+				return console.log('ignoring referrer root', event.request);
 			};
 
-			if (event.request.url.match('/panel/read')) {
-				return console.log('ignoring panel read', event.request);
-			}
-
-			if (event.request.url.match('/login')) {
-				return console.log('ignoring login', event.request);
-			}
-
-			if (event.request.url.match('/api/')) {
-				return console.log('ignoring api', event.request);
-			}
+			if (event.request.referrer && !event.request.referrer.match(/REFERRER_MATCH_TOKEN/)) {
+				return console.log('ignoring referrer child', event.request);
+			};
 
 			event.respondWith(async function() {
 				let cacheResponse = await caches.match(event.request);
