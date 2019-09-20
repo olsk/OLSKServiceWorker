@@ -31,6 +31,10 @@
 				return console.log('ignoring cors', event.request);
 			}
 
+			if (event.request.referrer && !event.request.referrer.match(/REFERRER_MATCH_TOKEN/)) {
+				return console.log('ignoring referrer', event.request);
+			};
+
 			if (event.request.url.match('/panel/read')) {
 				return console.log('ignoring panel read', event.request);
 			}
@@ -71,18 +75,30 @@
 		});
 	},
 	OLSKServiceWorkerView: function (inputData) {
-		if (typeof inputData !== 'string') {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKrrorInputInvalid');
+		}
+		
+		if (typeof inputData.VERSION_ID_TOKEN !== 'string') {
 			throw new Error('OLSKrrorInputInvalid');
 		}
 
-		if (!inputData) {
+		if (!inputData.VERSION_ID_TOKEN) {
 			throw new Error('OLSKrrorInputInvalid');
 		}
 
-		if (inputData.match(/\s/)) {
+		if (inputData.VERSION_ID_TOKEN.match(/\s/)) {
+			throw new Error('OLSKrrorInputInvalid');
+		}
+		
+		if (typeof inputData.REFERRER_MATCH_TOKEN !== 'string') {
 			throw new Error('OLSKrrorInputInvalid');
 		}
 
-		return mod._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', inputData).replace('function () {', '').trim().slice(0, -1);
+		if (!inputData.REFERRER_MATCH_TOKEN) {
+			throw new Error('OLSKrrorInputInvalid');
+		}
+
+		return mod._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', inputData.VERSION_ID_TOKEN).replace('REFERRER_MATCH_TOKEN', inputData.REFERRER_MATCH_TOKEN).replace('function () {', '').trim().slice(0, -1);
 	},
 }); })));

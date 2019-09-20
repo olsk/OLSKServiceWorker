@@ -2,28 +2,63 @@ const { throws, deepEqual } = require('assert');
 
 const mainModule = require('./main.js');
 
+const uStubTokens = function () {
+	return {
+		VERSION_ID_TOKEN: 'alfa',
+		REFERRER_MATCH_TOKEN: 'bravo',
+	}
+}
+
 describe('OLSKServiceWorkerView', function testOLSKServiceWorkerView() {
 
-	it('throws if not string', function() {
+	it('throws if not object', function() {
 		throws(function() {
 			mainModule.OLSKServiceWorkerView(null);
 		}, /OLSKrrorInputInvalid/);
 	});
 
-	it('throws if not filled', function() {
+	it('throws if VERSION_ID_TOKEN not string', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView('');
+			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
+				VERSION_ID_TOKEN: null,
+			}));
 		}, /OLSKrrorInputInvalid/);
 	});
 
-	it('throws if contains whitespace', function() {
+	it('throws if VERSION_ID_TOKEN not filled', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView('alfa bravo');
+			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
+				VERSION_ID_TOKEN: '',
+			}));
+		}, /OLSKrrorInputInvalid/);
+	});
+
+	it('throws if VERSION_ID_TOKEN contains whitespace', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
+				VERSION_ID_TOKEN: 'alfa bravo',
+			}));
+		}, /OLSKrrorInputInvalid/);
+	});
+
+	it('throws if REFERRER_MATCH_TOKEN not string', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
+				REFERRER_MATCH_TOKEN: null,
+			}));
+		}, /OLSKrrorInputInvalid/);
+	});
+
+	it('throws if REFERRER_MATCH_TOKEN not filled', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
+				REFERRER_MATCH_TOKEN: '',
+			}));
 		}, /OLSKrrorInputInvalid/);
 	});
 
 	it('returns function body', function() {
-		deepEqual(mainModule.OLSKServiceWorkerView('alfa'), mainModule._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', 'alfa').replace('function () {', '').trim().slice(0, -1));
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()), mainModule._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', 'alfa').replace('REFERRER_MATCH_TOKEN', 'bravo').replace('function () {', '').trim().slice(0, -1));
 	});
 
 });
