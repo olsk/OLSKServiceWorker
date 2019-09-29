@@ -64,27 +64,27 @@
 	},
 	OLSKServiceWorkerView: function (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
-			throw new Error('OLSKrrorInputInvalid');
+			throw new Error('OLSKrrorInputNotValid');
 		}
 		
 		if (typeof inputData.VERSION_ID_TOKEN !== 'string') {
-			throw new Error('OLSKrrorInputInvalid');
+			throw new Error('OLSKrrorInputNotValid');
 		}
 
 		if (!inputData.VERSION_ID_TOKEN) {
-			throw new Error('OLSKrrorInputInvalid');
+			throw new Error('OLSKrrorInputNotValid');
 		}
 
 		if (inputData.VERSION_ID_TOKEN.match(/\s/)) {
-			throw new Error('OLSKrrorInputInvalid');
+			throw new Error('OLSKrrorInputNotValid');
 		}
 		
 		if (typeof inputData.REFERRER_MATCH_TOKEN !== 'string') {
-			throw new Error('OLSKrrorInputInvalid');
+			throw new Error('OLSKrrorInputNotValid');
 		}
 
 		if (!inputData.REFERRER_MATCH_TOKEN) {
-			throw new Error('OLSKrrorInputInvalid');
+			throw new Error('OLSKrrorInputNotValid');
 		}
 
 		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('function () {', '').trim().slice(0, -1);
