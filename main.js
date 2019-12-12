@@ -3,7 +3,8 @@
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
 	(factory((global.OLSKServiceWorker = global.OLSKServiceWorker || {})));
 }(this, (function (exports) { 'use strict'; Object.defineProperty(exports, '__esModule', { value: true }); let mod = {}; Object.assign(exports, mod = {
-	_OLSKServiceWorkerTemplate: function () {
+
+	_OLSKServiceWorkerTemplate () {
 		const cacheName = 'OLSKServiceWorkerCache-VERSION_ID_TOKEN';
 
 		self.addEventListener('activate', function (event) {
@@ -62,7 +63,8 @@
 		  }
 		});
 	},
-	OLSKServiceWorkerView: function (inputData) {
+
+	OLSKServiceWorkerView (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKrrorInputNotValid');
 		}
@@ -89,4 +91,5 @@
 
 		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('function () {', '').trim().slice(0, -1);
 	},
+	
 }); })));
