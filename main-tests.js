@@ -58,7 +58,7 @@ describe('OLSKServiceWorkerView', function testOLSKServiceWorkerView() {
 	});
 
 	it('returns function body', function() {
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()), mainModule._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', 'alfa').replace(/REFERRER_MATCH_TOKEN/g, 'bravo').replace('function () {', '').trim().slice(0, -1));
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()), mainModule._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', 'alfa').replace(/REFERRER_MATCH_TOKEN/g, 'bravo').replace('_OLSKServiceWorkerTemplate () {', '').trim().slice(0, -1));
 	});
 
 });

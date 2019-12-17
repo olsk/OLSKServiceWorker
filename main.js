@@ -89,7 +89,7 @@
 			throw new Error('OLSKrrorInputNotValid');
 		}
 
-		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('function () {', '').trim().slice(0, -1);
+		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('_OLSKServiceWorkerTemplate () {', '').trim().slice(0, -1);
 	},
 	
 }); })));
