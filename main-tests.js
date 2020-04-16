@@ -9,7 +9,7 @@ const uStubTokens = function () {
 	}
 }
 
-describe('OLSKServiceWorkerView', function testOLSKServiceWorkerView() {
+describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
 	it('throws if not object', function() {
 		throws(function() {
