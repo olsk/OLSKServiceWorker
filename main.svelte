@@ -14,6 +14,8 @@ const mod = {
 
 	_ValueRegistration: undefined,
 
+	_ValueNextWorker: undefined,
+
 	_ValueUpdateAlertIsVisible: DebugFakeUpdateAlertVisible,
 
 	// INTERFACE
@@ -25,7 +27,7 @@ const mod = {
 	// CONTROL
 
 	ControlSkipWaiting () {
-		nextWorker.postMessage({
+		mod._ValueNextWorker.postMessage({
 			action: 'skipWaiting',
 		});
 	},
@@ -62,17 +64,15 @@ const mod = {
 
 };
 
-let nextWorker;
-
 function handleUpdateFound (event) {
 	DebugEnableLogging && console.log('updatefound', event);
 
-	nextWorker = mod._ValueRegistration.installing;
+	mod._ValueNextWorker = mod._ValueRegistration.installing;
 
-	nextWorker.addEventListener('statechange', function (event) {
-		DebugEnableLogging && console.log('statechange', nextWorker.state, event, navigator.serviceWorker.controller);
+	mod._ValueNextWorker.addEventListener('statechange', function (event) {
+		DebugEnableLogging && console.log('statechange', mod._ValueNextWorker.state, event, navigator.serviceWorker.controller);
 
-		if (nextWorker.state !== 'installed') {
+		if (mod._ValueNextWorker.state !== 'installed') {
 			return;
 		}
 
