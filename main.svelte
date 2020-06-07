@@ -2,6 +2,7 @@
 export let isDisabled = false;
 export let registrationRoute = null;
 export let DebugFakeUpdateAlertVisible = false;
+export let DebugEnableLogging = true;
 
 import OLSKInternational from 'OLSKInternational';
 const OLSKLocalized = function(translationConstant) {
@@ -37,12 +38,12 @@ mod.LifecycleModuleDidLoad();
 let notificationElement, reloadButton, registration, nextWorker;
 
 function handleUpdateFound (event) {
-	console.log('updatefound', event);
+	DebugEnableLogging && console.log('updatefound', event);
 
 	nextWorker = registration.installing;
 
 	nextWorker.addEventListener('statechange', function (event) {
-		console.log('statechange', nextWorker.state, event, navigator.serviceWorker.controller);
+		DebugEnableLogging && console.log('statechange', nextWorker.state, event, navigator.serviceWorker.controller);
 
 		if (nextWorker.state !== 'installed') {
 			return;
@@ -60,25 +61,25 @@ import { onMount, afterUpdate } from 'svelte';
 
 onMount(async function StartSetup() {
 	if (isDisabled) {
-		return console.info('Service worker disabled');
+		return DebugEnableLogging && console.info('Service worker disabled');
 	}
 
 	if (!navigator.serviceWorker) {
-		return console.info('Service worker not available');
+		return DebugEnableLogging && console.info('Service worker not available');
 	}
 
 	if (!registrationRoute) {
-		return console.info('Missing registration route');
+		return DebugEnableLogging && console.info('Missing registration route');
 	}
 
 	registration = await navigator.serviceWorker.register(registrationRoute);
 	
-	console.info('Service Worker Registered');
+	DebugEnableLogging && console.info('Service Worker Registered');
 
 	registration.addEventListener('updatefound', handleUpdateFound);
 
 	navigator.serviceWorker.addEventListener('controllerchange', function (event) {
-		console.log('controllerchange', event);
+		DebugEnableLogging && console.log('controllerchange', event);
 
 		window.location.reload();
 	});
