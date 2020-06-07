@@ -1,13 +1,40 @@
 <script>
 export let isDisabled = false;
 export let registrationRoute = null;
+export let DebugFakeUpdateAlertVisible = false;
 
-let notificationElement, reloadButton, registration, notificationIsVisible, nextWorker;
 import OLSKInternational from 'OLSKInternational';
 const OLSKLocalized = function(translationConstant) {
 	return OLSKInternational.OLSKInternationalLocalizedString(translationConstant, JSON.parse(`{"OLSK_I18N_SEARCH_REPLACE":"OLSK_I18N_SEARCH_REPLACE"}`)[window.OLSKPublicConstants('OLSKSharedPageCurrentLanguage')]);
 };
 
+const mod = {
+
+	// VALUE
+
+	_ValueUpdateAlertIsVisible: DebugFakeUpdateAlertVisible,
+
+	// SETUP
+
+	SetupEverything() {
+		mod.SetupAlfa();
+	},
+
+	SetupAlfa() {
+		
+	},
+
+	// LIFECYCLE
+
+	LifecycleModuleDidLoad() {
+		mod.SetupEverything();
+	},
+
+};
+
+mod.LifecycleModuleDidLoad();
+
+let notificationElement, reloadButton, registration, nextWorker;
 
 function handleUpdateFound (event) {
 	console.log('updatefound', event);
@@ -25,7 +52,7 @@ function handleUpdateFound (event) {
 			return;
 		}
 
-		notificationIsVisible = true;
+		mod._ValueUpdateAlertIsVisible = true;
 	});
 }
 
@@ -82,15 +109,15 @@ afterUpdate(function () {
 });
 </script>
 
-{#if notificationIsVisible}
-<div class="OLSKServiceWorkerUpdateNotification" bind:this={ notificationElement }>
-	{ OLSKLocalized('OLSKServiceWorkerUpdateAvailable') }
+{#if mod._ValueUpdateAlertIsVisible }
+<div class="OLSKServiceWorkerUpdateAlert" bind:this={ notificationElement }>
+	<span class="OLSKServiceWorkerUpdateAlertLabel">{ OLSKLocalized('OLSKServiceWorkerUpdateAlertLabelText') }</span>
 	<button bind:this={ reloadButton }>{ OLSKLocalized('OLSKServiceWorkerReload') }</button>
 </div>
 {/if}
 
 <style type="text/css">
-.OLSKServiceWorkerUpdateNotification {
+.OLSKServiceWorkerUpdateAlert {
 	padding: 10px;
 	border: 1px solid #7f7f7f;
 
