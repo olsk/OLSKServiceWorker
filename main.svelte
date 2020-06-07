@@ -1,5 +1,4 @@
 <script>
-export let isDisabled = false;
 export let registrationRoute = null;
 export let DebugFakeUpdateAlertVisible = false;
 export let DebugEnableLogging = true;
@@ -74,10 +73,6 @@ function handleUpdateFound (event) {
 import { onMount, afterUpdate } from 'svelte';
 
 onMount(async function StartSetup() {
-	if (isDisabled) {
-		return DebugEnableLogging && console.info('Service worker disabled');
-	}
-
 	if (!navigator.serviceWorker) {
 		return DebugEnableLogging && console.info('Service worker not available');
 	}
