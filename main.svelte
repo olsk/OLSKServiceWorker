@@ -112,7 +112,7 @@ afterUpdate(function () {
 {#if mod._ValueUpdateAlertIsVisible }
 <div class="OLSKServiceWorkerUpdateAlert" bind:this={ notificationElement }>
 	<span class="OLSKServiceWorkerUpdateAlertLabel">{ OLSKLocalized('OLSKServiceWorkerUpdateAlertLabelText') }</span>
-	<button bind:this={ reloadButton }>{ OLSKLocalized('OLSKServiceWorkerReload') }</button>
+	<button class="OLSKServiceWorkerUpdateAlertReloadButton" bind:this={ reloadButton }>{ OLSKLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText') }</button>
 </div>
 {/if}
 

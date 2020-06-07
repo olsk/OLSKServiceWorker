@@ -18,6 +18,10 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 		it('localizes OLSKServiceWorkerUpdateAlertLabel', function () {
 			browser.assert.text(OLSKServiceWorkerUpdateAlertLabel, uLocalized('OLSKServiceWorkerUpdateAlertLabelText'));
 		});
+
+		it('localizes OLSKServiceWorkerUpdateAlertReloadButton', function () {
+			browser.assert.text(OLSKServiceWorkerUpdateAlertReloadButton, uLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText'));
+		});
 	
 	});
 
