@@ -2,6 +2,7 @@
 export let OLSKServiceWorkerRegistrationRoute;
 export let DebugFakeUpdateAlertVisible = false;
 export let DebugEnableLogging = true;
+export let DebugAllowLocalhost = false;
 
 import OLSKInternational from 'OLSKInternational';
 const OLSKLocalized = function(translationConstant) {
@@ -72,6 +73,10 @@ const mod = {
 		if (!OLSKServiceWorkerRegistrationRoute) {
 			return DebugEnableLogging && console.info('Missing registration route');
 		}
+
+		if (document.location.hostname === 'localhost' && !DebugAllowLocalhost) {
+			return DebugEnableLogging && console.info('OLSKServiceWorker: Skipping on localhost');
+		};
 
 		await mod.SetupRegistration();
 
