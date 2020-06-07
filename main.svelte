@@ -1,9 +1,13 @@
 <script>
 export let isDisabled = false;
 export let registrationRoute = null;
-export let OLSKLocalized = null;
 
 let notificationElement, reloadButton, registration, notificationIsVisible, nextWorker;
+import OLSKInternational from 'OLSKInternational';
+const OLSKLocalized = function(translationConstant) {
+	return OLSKInternational.OLSKInternationalLocalizedString(translationConstant, JSON.parse(`{"OLSK_I18N_SEARCH_REPLACE":"OLSK_I18N_SEARCH_REPLACE"}`)[window.OLSKPublicConstants('OLSKSharedPageCurrentLanguage')]);
+};
+
 
 function handleUpdateFound (event) {
 	console.log('updatefound', event);
