@@ -15,6 +15,20 @@ const mod = {
 
 	_ValueUpdateAlertIsVisible: DebugFakeUpdateAlertVisible,
 
+	// INTERFACE
+
+	InterfaceReloadButtonDidClick() {
+		mod.ControlSkipWaiting();
+	},
+
+	// CONTROL
+
+	ControlSkipWaiting () {
+		nextWorker.postMessage({
+			action: 'skipWaiting',
+		});
+	},
+
 	// SETUP
 
 	SetupEverything() {
@@ -35,7 +49,7 @@ const mod = {
 
 mod.LifecycleModuleDidLoad();
 
-let notificationElement, reloadButton, registration, nextWorker;
+let registration, nextWorker;
 
 function handleUpdateFound (event) {
 	DebugEnableLogging && console.log('updatefound', event);
@@ -84,36 +98,12 @@ onMount(async function StartSetup() {
 		window.location.reload();
 	});
 });
-
-afterUpdate(function () {
-	(function() {
-		if (!notificationElement) {
-			return;
-		}
-
-		notificationElement.addEventListener('click', function () {
-			notificationElement.remove();
-		});
-	})();
-
-	(function() {
-		if (!reloadButton) {
-			return;
-		}
-
-		reloadButton.addEventListener('click', function () {
-			nextWorker.postMessage({
-				action: 'skipWaiting',
-			});
-		});
-	})();
-});
 </script>
 
 {#if mod._ValueUpdateAlertIsVisible }
-<div class="OLSKServiceWorkerUpdateAlert" bind:this={ notificationElement }>
+<div class="OLSKServiceWorkerUpdateAlert">
 	<span class="OLSKServiceWorkerUpdateAlertLabel">{ OLSKLocalized('OLSKServiceWorkerUpdateAlertLabelText') }</span>
-	<button class="OLSKServiceWorkerUpdateAlertReloadButton" bind:this={ reloadButton }>{ OLSKLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText') }</button>
+	<button class="OLSKServiceWorkerUpdateAlertReloadButton" on:click={ mod.InterfaceReloadButtonDidClick }>{ OLSKLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText') }</button>
 </div>
 {/if}
 
