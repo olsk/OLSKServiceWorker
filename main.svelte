@@ -54,7 +54,7 @@ const mod = {
 
 	// LIFECYCLE
 
-	LifecycleModuleDidLoad() {
+	LifecycleModuleDidMount() {
 		mod.SetupEverything();
 	},
 
@@ -83,7 +83,7 @@ function handleUpdateFound (event) {
 }
 
 import { onMount } from 'svelte';
-onMount(mod.LifecycleModuleDidLoad);
+onMount(mod.LifecycleModuleDidMount);
 </script>
 
 {#if mod._ValueUpdateAlertIsVisible }
