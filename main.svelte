@@ -30,12 +30,26 @@ const mod = {
 
 	// SETUP
 
-	SetupEverything() {
-		mod.SetupAlfa();
-	},
+	async SetupEverything() {
+		if (!navigator.serviceWorker) {
+			return DebugEnableLogging && console.info('Service worker not available');
+		}
 
-	SetupAlfa() {
+		if (!registrationRoute) {
+			return DebugEnableLogging && console.info('Missing registration route');
+		}
+
+		registration = await navigator.serviceWorker.register(registrationRoute);
 		
+		DebugEnableLogging && console.info('Service Worker Registered');
+
+		registration.addEventListener('updatefound', handleUpdateFound);
+
+		navigator.serviceWorker.addEventListener('controllerchange', function (event) {
+			DebugEnableLogging && console.log('controllerchange', event);
+
+			window.location.reload();
+		});
 	},
 
 	// LIFECYCLE
@@ -45,8 +59,6 @@ const mod = {
 	},
 
 };
-
-mod.LifecycleModuleDidLoad();
 
 let registration, nextWorker;
 
@@ -70,29 +82,8 @@ function handleUpdateFound (event) {
 	});
 }
 
-import { onMount, afterUpdate } from 'svelte';
-
-onMount(async function StartSetup() {
-	if (!navigator.serviceWorker) {
-		return DebugEnableLogging && console.info('Service worker not available');
-	}
-
-	if (!registrationRoute) {
-		return DebugEnableLogging && console.info('Missing registration route');
-	}
-
-	registration = await navigator.serviceWorker.register(registrationRoute);
-	
-	DebugEnableLogging && console.info('Service Worker Registered');
-
-	registration.addEventListener('updatefound', handleUpdateFound);
-
-	navigator.serviceWorker.addEventListener('controllerchange', function (event) {
-		DebugEnableLogging && console.log('controllerchange', event);
-
-		window.location.reload();
-	});
-});
+import { onMount } from 'svelte';
+onMount(mod.LifecycleModuleDidLoad);
 </script>
 
 {#if mod._ValueUpdateAlertIsVisible }
