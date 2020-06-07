@@ -12,6 +12,8 @@ const mod = {
 
 	// VALUE
 
+	_ValueRegistration: undefined,
+
 	_ValueUpdateAlertIsVisible: DebugFakeUpdateAlertVisible,
 
 	// INTERFACE
@@ -39,11 +41,11 @@ const mod = {
 			return DebugEnableLogging && console.info('Missing registration route');
 		}
 
-		registration = await navigator.serviceWorker.register(registrationRoute);
+		mod._ValueRegistration = await navigator.serviceWorker.register(registrationRoute);
 		
 		DebugEnableLogging && console.info('Service Worker Registered');
 
-		registration.addEventListener('updatefound', handleUpdateFound);
+		mod._ValueRegistration.addEventListener('updatefound', handleUpdateFound);
 
 		navigator.serviceWorker.addEventListener('controllerchange', function (event) {
 			DebugEnableLogging && console.log('controllerchange', event);
@@ -60,12 +62,12 @@ const mod = {
 
 };
 
-let registration, nextWorker;
+let nextWorker;
 
 function handleUpdateFound (event) {
 	DebugEnableLogging && console.log('updatefound', event);
 
-	nextWorker = registration.installing;
+	nextWorker = mod._ValueRegistration.installing;
 
 	nextWorker.addEventListener('statechange', function (event) {
 		DebugEnableLogging && console.log('statechange', nextWorker.state, event, navigator.serviceWorker.controller);
