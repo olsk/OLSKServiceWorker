@@ -1,5 +1,5 @@
 <script>
-export let registrationRoute = null;
+export let OLSKServiceWorkerRegistrationRoute;
 export let DebugFakeUpdateAlertVisible = false;
 export let DebugEnableLogging = true;
 
@@ -69,7 +69,7 @@ const mod = {
 			return DebugEnableLogging && console.info('Service worker not available');
 		}
 
-		if (!registrationRoute) {
+		if (!OLSKServiceWorkerRegistrationRoute) {
 			return DebugEnableLogging && console.info('Missing registration route');
 		}
 
@@ -79,7 +79,7 @@ const mod = {
 	},
 
 	async SetupRegistration() {
-		mod._ValueRegistration = await navigator.serviceWorker.register(registrationRoute);
+		mod._ValueRegistration = await navigator.serviceWorker.register(OLSKServiceWorkerRegistrationRoute);
 		
 		DebugEnableLogging && console.info('Service Worker Registered');
 
