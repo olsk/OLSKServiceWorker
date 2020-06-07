@@ -73,12 +73,20 @@ const mod = {
 			return DebugEnableLogging && console.info('Missing registration route');
 		}
 
+		await mod.SetupRegistration();
+
+		mod.SetupControllerChange();
+	},
+
+	async SetupRegistration() {
 		mod._ValueRegistration = await navigator.serviceWorker.register(registrationRoute);
 		
 		DebugEnableLogging && console.info('Service Worker Registered');
 
 		mod._ValueRegistration.addEventListener('updatefound', mod.MessageUpdateFound);
+	},
 
+	SetupControllerChange () {
 		navigator.serviceWorker.addEventListener('controllerchange', mod.MessageControllerChange);
 	},
 
