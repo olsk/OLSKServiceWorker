@@ -10,6 +10,36 @@ const OLSKLocalized = function(translationConstant) {
 
 const mod = {
 
+	// MESSAGE
+
+	MessageUpdateFound (event) {
+		DebugEnableLogging && console.log('updatefound', event);
+
+		mod._ValueNextWorker = mod._ValueRegistration.installing;
+
+		mod._ValueNextWorker.addEventListener('statechange', mod.MessageNextWorkerStateChange);
+	},
+
+	MessageNextWorkerStateChange (event) {
+		DebugEnableLogging && console.log('statechange', mod._ValueNextWorker.state, event, navigator.serviceWorker.controller);
+
+		if (mod._ValueNextWorker.state !== 'installed') {
+			return;
+		}
+
+		if (!navigator.serviceWorker.controller) {
+			return;
+		}
+
+		mod._ValueUpdateAlertIsVisible = true;
+	},
+
+	MessageControllerChange (event) {
+		DebugEnableLogging && console.log('controllerchange', event);
+
+		window.location.reload();
+	},
+
 	// VALUE
 
 	_ValueRegistration: undefined,
@@ -47,13 +77,9 @@ const mod = {
 		
 		DebugEnableLogging && console.info('Service Worker Registered');
 
-		mod._ValueRegistration.addEventListener('updatefound', handleUpdateFound);
+		mod._ValueRegistration.addEventListener('updatefound', mod.MessageUpdateFound);
 
-		navigator.serviceWorker.addEventListener('controllerchange', function (event) {
-			DebugEnableLogging && console.log('controllerchange', event);
-
-			window.location.reload();
-		});
+		navigator.serviceWorker.addEventListener('controllerchange', mod.MessageControllerChange);
 	},
 
 	// LIFECYCLE
@@ -63,26 +89,6 @@ const mod = {
 	},
 
 };
-
-function handleUpdateFound (event) {
-	DebugEnableLogging && console.log('updatefound', event);
-
-	mod._ValueNextWorker = mod._ValueRegistration.installing;
-
-	mod._ValueNextWorker.addEventListener('statechange', function (event) {
-		DebugEnableLogging && console.log('statechange', mod._ValueNextWorker.state, event, navigator.serviceWorker.controller);
-
-		if (mod._ValueNextWorker.state !== 'installed') {
-			return;
-		}
-
-		if (!navigator.serviceWorker.controller) {
-			return;
-		}
-
-		mod._ValueUpdateAlertIsVisible = true;
-	});
-}
 
 import { onMount } from 'svelte';
 onMount(mod.LifecycleModuleDidMount);
