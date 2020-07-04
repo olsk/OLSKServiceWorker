@@ -11,6 +11,28 @@ const OLSKLocalized = function(translationConstant) {
 
 const mod = {
 
+	// VALUE
+
+	_ValueRegistration: undefined,
+
+	_ValueNextWorker: undefined,
+
+	_ValueUpdateAlertIsVisible: DebugFakeUpdateAlertVisible,
+
+	// INTERFACE
+
+	InterfaceReloadButtonDidClick() {
+		mod.ControlSkipWaiting();
+	},
+
+	// CONTROL
+
+	ControlSkipWaiting () {
+		mod._ValueNextWorker.postMessage({
+			action: 'skipWaiting',
+		});
+	},
+
 	// MESSAGE
 
 	MessageUpdateFound (event) {
@@ -39,28 +61,6 @@ const mod = {
 		DebugEnableLogging && console.log('controllerchange', event);
 
 		window.location.reload();
-	},
-
-	// VALUE
-
-	_ValueRegistration: undefined,
-
-	_ValueNextWorker: undefined,
-
-	_ValueUpdateAlertIsVisible: DebugFakeUpdateAlertVisible,
-
-	// INTERFACE
-
-	InterfaceReloadButtonDidClick() {
-		mod.ControlSkipWaiting();
-	},
-
-	// CONTROL
-
-	ControlSkipWaiting () {
-		mod._ValueNextWorker.postMessage({
-			action: 'skipWaiting',
-		});
 	},
 
 	// SETUP
