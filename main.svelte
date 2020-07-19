@@ -108,7 +108,7 @@ onMount(mod.LifecycleModuleDidMount);
 </script>
 
 {#if mod._ValueUpdateAlertIsVisible }
-<div class="OLSKServiceWorkerUpdateAlert">
+<div class="OLSKServiceWorkerUpdateAlert" on:click={ () => mod._ValueUpdateAlertIsVisible = false }>
 	<span class="OLSKServiceWorkerUpdateAlertLabel">{ OLSKLocalized('OLSKServiceWorkerUpdateAlertLabelText') }</span>
 	<button class="OLSKServiceWorkerUpdateAlertReloadButton" on:click={ mod.InterfaceReloadButtonDidClick }>{ OLSKLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText') }</button>
 </div>

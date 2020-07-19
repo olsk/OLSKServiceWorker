@@ -37,6 +37,18 @@ describe('OLSKServiceWorker_Access', function () {
 		it('shows OLSKServiceWorkerUpdateAlertReloadButton', function () {
 			browser.assert.elements(OLSKServiceWorkerUpdateAlertReloadButton, 1);
 		});
+
+		context('click', function () {
+
+			before(function () {
+				return browser.click(OLSKServiceWorkerUpdateAlert);
+			});
+			
+			it('hides OLSKServiceWorkerUpdateAlert', function () {
+				browser.assert.elements(OLSKServiceWorkerUpdateAlert, 0);
+			});
+		
+		});
 	
 	});
 
