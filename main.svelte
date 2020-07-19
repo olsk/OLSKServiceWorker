@@ -103,8 +103,7 @@ const mod = {
 
 };
 
-import { onMount } from 'svelte';
-onMount(mod.LifecycleModuleDidMount);
+mod.LifecycleModuleDidMount();
 </script>
 
 {#if mod._ValueUpdateAlertIsVisible }
