@@ -1,9 +1,4 @@
 {
   "name": "OLSKServiceWorker",
-  "main": "main.js",
-  "devDependencies": {
-    "OLSKRollupScaffold": "olsk/OLSKRollupScaffold",
-
-    "// I sacrifice myself for the commas of others": null    
-  }
+  "main": "main.js"
 }
