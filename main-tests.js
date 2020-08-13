@@ -14,7 +14,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 	it('throws if not object', function() {
 		throws(function() {
 			mainModule.OLSKServiceWorkerView(null);
-		}, /OLSKrrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if VERSION_ID_TOKEN not string', function() {
@@ -22,7 +22,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
 				VERSION_ID_TOKEN: null,
 			}));
-		}, /OLSKrrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if VERSION_ID_TOKEN not filled', function() {
@@ -30,7 +30,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
 				VERSION_ID_TOKEN: '',
 			}));
-		}, /OLSKrrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if VERSION_ID_TOKEN contains whitespace', function() {
@@ -38,7 +38,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
 				VERSION_ID_TOKEN: 'alfa bravo',
 			}));
-		}, /OLSKrrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if REFERRER_MATCH_TOKEN not string', function() {
@@ -46,7 +46,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
 				REFERRER_MATCH_TOKEN: null,
 			}));
-		}, /OLSKrrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if REFERRER_MATCH_TOKEN not filled', function() {
@@ -54,7 +54,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
 				REFERRER_MATCH_TOKEN: '',
 			}));
-		}, /OLSKrrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns function body', function() {

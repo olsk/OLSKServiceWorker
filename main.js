@@ -64,27 +64,27 @@
 
 	OLSKServiceWorkerView (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
-			throw new Error('OLSKrrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 		
 		if (typeof inputData.VERSION_ID_TOKEN !== 'string') {
-			throw new Error('OLSKrrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		if (!inputData.VERSION_ID_TOKEN) {
-			throw new Error('OLSKrrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		if (inputData.VERSION_ID_TOKEN.match(/\s/)) {
-			throw new Error('OLSKrrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 		
 		if (typeof inputData.REFERRER_MATCH_TOKEN !== 'string') {
-			throw new Error('OLSKrrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		if (!inputData.REFERRER_MATCH_TOKEN) {
-			throw new Error('OLSKrrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('_OLSKServiceWorkerTemplate () {', '').trim().slice(0, -1);
