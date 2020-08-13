@@ -75,6 +75,7 @@
 	},
 
 	OLSKServiceWorkerView (inputData) {
+		console.log('DEPRECATED OLSKServiceWorkerView: use OLSKServiceWorkerViewTemplate');
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
