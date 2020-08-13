@@ -7,16 +7,14 @@
 	_OLSKServiceWorkerTemplate () {
 		const cacheName = 'OLSKServiceWorkerCache-VERSION_ID_TOKEN';
 
-		self.addEventListener('activate', function (event) {
+		self.addEventListener('activate', async function (event) {
 			console.log('activate', event);
 			
-			event.waitUntil(async function() {
-				await Promise.all(
-					(await caches.keys()).map(function (e) {
-						return caches.delete(e);
-					})
-				);
-			}());
+			event.waitUntil(Promise.all(
+				(await caches.keys()).map(function (e) {
+					return caches.delete(e);
+				})
+			));
 		});
 
 		self.addEventListener('fetch', function (event) {
