@@ -4,6 +4,18 @@
 	(factory((global.OLSKServiceWorker = global.OLSKServiceWorker || {})));
 }(this, (function (exports) { 'use strict'; Object.defineProperty(exports, '__esModule', { value: true }); let mod = {}; Object.assign(exports, mod = {
 
+	OLSKServiceWorkerRequestMatchesROCOAPI (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!inputData.url) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return !!inputData.url.match(/^https\:\/\/rosano\.ca\/api/);
+	},
+
 	_OLSKServiceWorkerTemplate () {
 		const cacheName = 'OLSKServiceWorkerCache-VERSION_ID_TOKEN';
 

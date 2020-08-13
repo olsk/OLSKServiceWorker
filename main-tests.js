@@ -7,7 +7,39 @@ const uStubTokens = function () {
 		VERSION_ID_TOKEN: 'alfa',
 		REFERRER_MATCH_TOKEN: 'bravo',
 	}
-}
+};
+
+describe('OLSKServiceWorkerRequestMatchesROCOAPI', function test_OLSKServiceWorkerRequestMatchesROCOAPI() {
+
+	const uRequest = function (inputData) {
+		return {
+			method: 'GET',
+			mode: 'cors',
+			url: inputData,
+		};
+	};
+
+	it('throws if not object', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerRequestMatchesROCOAPI(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if not valid', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerRequestMatchesROCOAPI(uRequest(null));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns false if not roco api', function() {
+		deepEqual(mainModule.OLSKServiceWorkerRequestMatchesROCOAPI(uRequest('https://alfa.com/bravo')), false);
+	});
+
+	it('returns true', function() {
+		deepEqual(mainModule.OLSKServiceWorkerRequestMatchesROCOAPI(uRequest('https://rosano.ca/api/alfa')), true);
+	});
+
+});
 
 describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
