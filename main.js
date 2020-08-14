@@ -43,7 +43,7 @@ const mod = {
 
 			// DATA
 
-			_DataVersionCacheName: 'OLSKServiceWorkerCache-VERSION_ID_TOKEN',
+			_DataVersionCacheName: 'OLSKServiceWorkerVersionCache-VERSION_ID_TOKEN',
 			_DataOriginPage: 'ORIGIN_PAGE_PATH_TOKEN',
 
 			// CONTROL
