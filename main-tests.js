@@ -435,7 +435,7 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 describe('OLSKServiceWorkerViewTemplate', function test_OLSKServiceWorkerViewTemplate() {
 
 	it('returns string', function() {
-		deepEqual(mainModule.OLSKServiceWorkerViewTemplate(), `const mod = (function ${ mainModule.OLSKServiceWorkerModule.toString() })();\n\n(function ${ mainModule.OLSKServiceWorkerInitialization.toString() })(self, mod);`);
+		deepEqual(mainModule.OLSKServiceWorkerViewTemplate(), `const mod = (function ${ mainModule.OLSKServiceWorkerModule.toString() })(self, caches, fetch);\n\n(function ${ mainModule.OLSKServiceWorkerInitialization.toString() })(self, mod);`);
 	});
 
 });

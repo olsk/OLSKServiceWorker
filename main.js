@@ -187,7 +187,7 @@ const mod = {
 	},
 
 	OLSKServiceWorkerViewTemplate () {
-		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })();\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
+		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })(self, caches, fetch);\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
 	},
 
 	OLSKServiceWorkerView (inputData) {
