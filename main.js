@@ -1,17 +1,5 @@
 const mod = {
 
-	OLSKServiceWorkerRequestMatchesROCOAPI (inputData) {
-		if (typeof inputData !== 'object' || inputData === null) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!inputData.url) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		return !!inputData.url.match(/^https\:\/\/rosano\.ca\/api/);
-	},
-
 	OLSKServiceWorkerModule (param1, param2, param3, param4) {
 		if (typeof param1 !== 'object' || param1 === null) {
 			throw new Error('OLSKErrorInputNotValid');
