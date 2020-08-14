@@ -224,14 +224,29 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			deepEqual(item._FakeResponses(), []);
 		});
 
-		it('ignores if mode cors', async function () {
-			const item = uFetchEvent({
-				mode: 'cors',
+		context('mode cors', function () {
+			
+			it('ignores if not ROCOAPI', async function () {
+				const item = uFetchEvent({
+					mode: 'cors',
+				});
+
+				await uModule().OLSKServiceWorkerDidFetch(item);
+
+				deepEqual(item._FakeResponses(), []);
 			});
+			
+			it('ignores if ROCOAPI', async function () {
+				const item = uFetchEvent({
+					url: 'https://rosano.ca/api/alfa',
+					mode: 'cors',
+				});
 
-			await uModule().OLSKServiceWorkerDidFetch(item);
+				await uModule().OLSKServiceWorkerDidFetch(item);
 
-			deepEqual(item._FakeResponses(), []);
+				deepEqual(item._FakeResponses().length, 1);
+			});
+		
 		});
 
 		context('OriginPage', function () {
