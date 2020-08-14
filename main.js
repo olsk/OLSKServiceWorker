@@ -70,35 +70,6 @@ const mod = {
 		});
 	},
 
-	OLSKServiceWorkerView (inputData) {
-		console.log('DEPRECATED OLSKServiceWorkerView: use OLSKServiceWorkerViewTemplate');
-		if (typeof inputData !== 'object' || inputData === null) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
-		if (typeof inputData.VERSION_ID_TOKEN !== 'string') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!inputData.VERSION_ID_TOKEN) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (inputData.VERSION_ID_TOKEN.match(/\s/)) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
-		if (typeof inputData.REFERRER_MATCH_TOKEN !== 'string') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!inputData.REFERRER_MATCH_TOKEN) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		return mod._OLSKServiceWorkerTemplate.toString().replace(/VERSION_ID_TOKEN/g, inputData.VERSION_ID_TOKEN).replace(/REFERRER_MATCH_TOKEN/g, inputData.REFERRER_MATCH_TOKEN).replace('_OLSKServiceWorkerTemplate () {', '').trim().slice(0, -1);
-	},
-
 	OLSKServiceWorkerModule (param1, param2, param3) {
 		if (typeof param1 !== 'object' || param1 === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -217,6 +188,36 @@ const mod = {
 
 	OLSKServiceWorkerViewTemplate () {
 		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })();\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
+	},
+
+	OLSKServiceWorkerView (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof inputData.VERSION_ID_TOKEN !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!inputData.VERSION_ID_TOKEN) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (inputData.VERSION_ID_TOKEN.match(/\s/)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof inputData.REFERRER_MATCH_TOKEN !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!inputData.REFERRER_MATCH_TOKEN) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return mod.OLSKServiceWorkerViewTemplate()
+			.split('VERSION_ID_TOKEN').join(inputData.VERSION_ID_TOKEN)
+			.split('REFERRER_MATCH_TOKEN').join(inputData.REFERRER_MATCH_TOKEN);
 	},
 	
 };

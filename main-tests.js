@@ -2,11 +2,11 @@ const { throws, deepEqual } = require('assert');
 
 const mainModule = require('./main.js');
 
-const uStubTokens = function () {
-	return {
+const uStubTokens = function (inputData = {}) {
+	return Object.assign({
 		VERSION_ID_TOKEN: 'alfa',
 		REFERRER_MATCH_TOKEN: 'bravo',
-	}
+	}, inputData);
 };
 
 const uFakeSelf = function() {
@@ -125,60 +125,6 @@ describe('OLSKServiceWorkerRequestMatchesROCOAPI', function test_OLSKServiceWork
 
 	it('returns true', function() {
 		deepEqual(mainModule.OLSKServiceWorkerRequestMatchesROCOAPI(uRequest('https://rosano.ca/api/alfa')), true);
-	});
-
-});
-
-describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
-
-	it('throws if not object', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerView(null);
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if VERSION_ID_TOKEN not string', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
-				VERSION_ID_TOKEN: null,
-			}));
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if VERSION_ID_TOKEN not filled', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
-				VERSION_ID_TOKEN: '',
-			}));
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if VERSION_ID_TOKEN contains whitespace', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
-				VERSION_ID_TOKEN: 'alfa bravo',
-			}));
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if REFERRER_MATCH_TOKEN not string', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
-				REFERRER_MATCH_TOKEN: null,
-			}));
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if REFERRER_MATCH_TOKEN not filled', function() {
-		throws(function() {
-			mainModule.OLSKServiceWorkerView(Object.assign(uStubTokens(), {
-				REFERRER_MATCH_TOKEN: '',
-			}));
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('returns function body', function() {
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()), mainModule._OLSKServiceWorkerTemplate.toString().replace('VERSION_ID_TOKEN', 'alfa').replace(/REFERRER_MATCH_TOKEN/g, 'bravo').replace('_OLSKServiceWorkerTemplate () {', '').trim().slice(0, -1));
 	});
 
 });
@@ -490,6 +436,70 @@ describe('OLSKServiceWorkerViewTemplate', function test_OLSKServiceWorkerViewTem
 
 	it('returns string', function() {
 		deepEqual(mainModule.OLSKServiceWorkerViewTemplate(), `const mod = (function ${ mainModule.OLSKServiceWorkerModule.toString() })();\n\n(function ${ mainModule.OLSKServiceWorkerInitialization.toString() })(self, mod);`);
+	});
+
+});
+
+describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
+
+	it('throws if not object', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if VERSION_ID_TOKEN not string', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(uStubTokens({
+				VERSION_ID_TOKEN: null,
+			}));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if VERSION_ID_TOKEN not filled', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(uStubTokens({
+				VERSION_ID_TOKEN: '',
+			}));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if VERSION_ID_TOKEN contains whitespace', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(uStubTokens({
+				VERSION_ID_TOKEN: 'alfa bravo',
+			}));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if REFERRER_MATCH_TOKEN not string', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(uStubTokens({
+				REFERRER_MATCH_TOKEN: null,
+			}));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if REFERRER_MATCH_TOKEN not filled', function() {
+		throws(function() {
+			mainModule.OLSKServiceWorkerView(uStubTokens({
+				REFERRER_MATCH_TOKEN: '',
+			}));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns string ', function() {
+		deepEqual(typeof mainModule.OLSKServiceWorkerView(uStubTokens()), 'string');
+	});
+
+	it('replaces VERSION_ID_TOKEN', function() {
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('VERSION_ID_TOKEN'), false);
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().VERSION_ID_TOKEN), true);
+	});
+
+	it('replaces REFERRER_MATCH_TOKEN', function() {
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('REFERRER_MATCH_TOKEN'), false);
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().REFERRER_MATCH_TOKEN), true);
 	});
 
 });
