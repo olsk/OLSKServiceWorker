@@ -5,7 +5,7 @@ const mainModule = require('./main.js');
 const uStubTokens = function (inputData = {}) {
 	return Object.assign({
 		VERSION_ID_TOKEN: 'alfa',
-		REFERRER_MATCH_TOKEN: 'bravo',
+		ORIGIN_PAGE_PATH_TOKEN: 'bravo',
 	}, inputData);
 };
 
@@ -534,18 +534,18 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if REFERRER_MATCH_TOKEN not string', function() {
+	it('throws if ORIGIN_PAGE_PATH_TOKEN not string', function() {
 		throws(function() {
 			mainModule.OLSKServiceWorkerView(uStubTokens({
-				REFERRER_MATCH_TOKEN: null,
+				ORIGIN_PAGE_PATH_TOKEN: null,
 			}));
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if REFERRER_MATCH_TOKEN not filled', function() {
+	it('throws if ORIGIN_PAGE_PATH_TOKEN not filled', function() {
 		throws(function() {
 			mainModule.OLSKServiceWorkerView(uStubTokens({
-				REFERRER_MATCH_TOKEN: '',
+				ORIGIN_PAGE_PATH_TOKEN: '',
 			}));
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -559,9 +559,9 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().VERSION_ID_TOKEN), true);
 	});
 
-	it('replaces REFERRER_MATCH_TOKEN', function() {
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('REFERRER_MATCH_TOKEN'), false);
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().REFERRER_MATCH_TOKEN), true);
+	it('replaces ORIGIN_PAGE_PATH_TOKEN', function() {
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('ORIGIN_PAGE_PATH_TOKEN'), false);
+		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().ORIGIN_PAGE_PATH_TOKEN), true);
 	});
 
 });
