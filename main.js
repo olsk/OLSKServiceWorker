@@ -43,7 +43,7 @@ const mod = {
 
 			// DATA
 
-			_DataCacheName: 'OLSKServiceWorkerCache-VERSION_ID_TOKEN',
+			_DataVersionCacheName: 'OLSKServiceWorkerCache-VERSION_ID_TOKEN',
 			_DataOriginPage: 'ORIGIN_PAGE_PATH_TOKEN',
 
 			// CONTROL
@@ -97,7 +97,7 @@ const mod = {
 					let networkResponse = param4 ? await fetch(event.request) : await mod._ValueFetch(event.request);
 
 					if (networkResponse.status === 200) {
-						(await mod._ValueCaches.open(mod._DataCacheName)).put(event.request, networkResponse.clone());
+						(await mod._ValueCaches.open(mod._DataVersionCacheName)).put(event.request, networkResponse.clone());
 					}
 
 					return networkResponse;

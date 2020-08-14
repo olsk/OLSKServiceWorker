@@ -377,7 +377,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				});
 
 				it('caches response', function () {
-					deepEqual(mod._ValueCaches._FakeCaches(), uObject(mod._DataCacheName, uObject(event.request.url, mod._FakeResponses[0])));
+					deepEqual(mod._ValueCaches._FakeCaches(), uObject(mod._DataVersionCacheName, uObject(event.request.url, mod._FakeResponses[0])));
 				});
 			
 			});
