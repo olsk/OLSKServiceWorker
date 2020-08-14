@@ -71,9 +71,9 @@ const mod = {
 					return;
 				}
 
-				// if (event.request.mode === 'cors') {
-				// 	return console.log('ignoring cors', event.request);
-				// }
+				if (event.request.mode === 'cors') {
+					return;
+				}
 
 				if (event.request.mode === 'navigate' && !event.request.url.includes(mod._DataOriginPage)) {
 					return;

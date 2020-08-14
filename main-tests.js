@@ -245,6 +245,16 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			deepEqual(item._FakeResponses(), []);
 		});
 
+		it('ignores if mode cors', async function () {
+			const item = uFetchEvent({
+				mode: 'cors',
+			});
+
+			await uModule().OLSKServiceWorkerDidFetch(item);
+
+			deepEqual(item._FakeResponses(), []);
+		});
+
 		context('OriginPage', function () {
 
 			context('mode navigate', function () {
