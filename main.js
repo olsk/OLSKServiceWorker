@@ -39,7 +39,9 @@ const mod = {
 
 			async ControlClearCache () {
 				return Promise.all(
-					(await mod._ValueCaches.keys()).map(function (e) {
+					(await mod._ValueCaches.keys()).filter(function (e) {
+						return e !== mod._DataPersistenceCacheName;
+					}).map(function (e) {
 						return mod._ValueCaches.delete(e);
 					})
 				);

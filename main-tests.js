@@ -147,6 +147,17 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			deepEqual(item._FakeCalls().keys, 1);
 			deepEqual(item._FakeDeletes(), ['alfa', 'bravo']);
 		});
+		
+		it('excludes _DataPersistenceCacheName', async function () {
+			const item = uFakeCaches(['alfa', uModule()._DataPersistenceCacheName]);
+
+			await Object.assign(uModule(), {
+				_ValueCaches: item,
+			}).ControlClearCache();
+
+			deepEqual(item._FakeCalls().keys, 1);
+			deepEqual(item._FakeDeletes(), ['alfa']);
+		});
 	
 	});
 
