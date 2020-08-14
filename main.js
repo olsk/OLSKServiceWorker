@@ -1,8 +1,4 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.OLSKServiceWorker = global.OLSKServiceWorker || {})));
-}(this, (function (exports) { 'use strict'; Object.defineProperty(exports, '__esModule', { value: true }); let mod = {}; Object.assign(exports, mod = {
+const mod = {
 
 	OLSKServiceWorkerRequestMatchesROCOAPI (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
@@ -223,4 +219,6 @@
 		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })();\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
 	},
 	
-}); })));
+};
+
+Object.assign(exports, mod);
