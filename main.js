@@ -44,6 +44,7 @@ const mod = {
 			// DATA
 
 			_DataVersionCacheName: 'OLSKServiceWorkerVersionCache-VERSION_ID_TOKEN',
+			_DataPersistenceCacheName: 'OLSKServiceWorkerPersistenceCache',
 			_DataOriginPage: 'ORIGIN_PAGE_PATH_TOKEN',
 
 			// CONTROL
@@ -97,7 +98,7 @@ const mod = {
 					let networkResponse = param4 ? await fetch(event.request) : await mod._ValueFetch(event.request);
 
 					if (networkResponse.status === 200) {
-						(await mod._ValueCaches.open(mod._DataVersionCacheName)).put(event.request, networkResponse.clone());
+						(await mod._ValueCaches.open(event.request.url.match(/^https\:\/\/rosano\.ca\/api/) ? mod._DataPersistenceCacheName : mod._DataVersionCacheName)).put(event.request, networkResponse.clone());
 					}
 
 					return networkResponse;

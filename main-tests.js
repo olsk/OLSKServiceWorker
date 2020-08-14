@@ -404,6 +404,23 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				});
 
 			});
+
+			context('ROCOAPI', function () {
+
+				const event = uFetchEvent({
+					url: 'https://rosano.ca/api/alfa',
+				});
+				const mod = uModule();
+
+				before(function () {
+					return mod.OLSKServiceWorkerDidFetch(event);
+				});
+
+				it('caches response in _DataPersistenceCacheName', function () {
+					deepEqual(mod._ValueCaches._FakeCaches(), uObject(mod._DataPersistenceCacheName, uObject(event.request.url, mod._FakeResponses[0])));
+				});
+			
+			});
 		
 		});
 	
