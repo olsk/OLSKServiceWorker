@@ -89,12 +89,10 @@ const uFakeFetch = async function (inputData) {
 	return this._FakeResponses.slice(-1).pop();
 };
 
-const uData = function(inputData) {
-	return inputData + '-DATA';
-};
-
 const uModule = function(param1 = uFakeSelf()) {
-	return mainModule.OLSKServiceWorkerModule(param1, uFakeCaches(), uFakeFetch);
+	return Object.assign(mainModule.OLSKServiceWorkerModule(param1, uFakeCaches(), uFakeFetch), {
+		_DataOriginPage: '/charlie',
+	});
 };
 
 describe('OLSKServiceWorkerRequestMatchesROCOAPI', function test_OLSKServiceWorkerRequestMatchesROCOAPI() {
@@ -217,9 +215,9 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				},
 				request: Object.assign({
 					method: 'GET',
-					url: 'https://alfa.bravo/',
-					mode: 'cors',
-					referrer: 'https://charlie.delta/',
+					url: 'https://alfa.bravo/charlie/ui-style.css',
+					mode: 'no-cors',
+					referrer: 'https://alfa.bravo/charlie',
 				}, inputData),
 				_FakeResponses () {
 					return _FakeResponses;
@@ -245,6 +243,70 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			await uModule().OLSKServiceWorkerDidFetch(item);
 
 			deepEqual(item._FakeResponses(), []);
+		});
+
+		context('OriginPage', function () {
+
+			context('mode navigate', function () {
+				
+				it('ignores if to other page', async function () {
+					const item = uFetchEvent({
+						url: 'https://alfa.bravo/charlie',
+						mode: 'navigate',
+						referrer: 'https://alfa.bravo/delta',
+					});
+
+					await Object.assign(uModule(), {
+						_DataOriginPage: '/delta',
+					}).OLSKServiceWorkerDidFetch(item);
+
+					deepEqual(item._FakeResponses(), []);
+				});
+
+				it('responds if to OriginPage', async function () {
+					const item = uFetchEvent({
+						url: 'https://alfa.bravo/delta',
+						mode: 'navigate',
+						referrer: 'https://alfa.bravo/charlie',
+					});
+
+					await Object.assign(uModule(), {
+						_DataOriginPage: '/delta',
+					}).OLSKServiceWorkerDidFetch(item);
+
+					deepEqual(item._FakeResponses().length, 1);
+				});
+			
+			});
+
+			context('referrer', function () {
+				
+				it('ignores if other page', async function () {
+					const item = uFetchEvent({
+						referrer: 'https://alfa.bravo/charlie',
+					});
+
+					await Object.assign(uModule(), {
+						_DataOriginPage: '/delta',
+					}).OLSKServiceWorkerDidFetch(item);
+
+					deepEqual(item._FakeResponses(), []);
+				});
+
+				it('responds if OriginPage', async function () {
+					const item = uFetchEvent({
+						referrer: 'https://alfa.bravo/delta',
+					});
+
+					await Object.assign(uModule(), {
+						_DataOriginPage: '/delta',
+					}).OLSKServiceWorkerDidFetch(item);
+
+					deepEqual(item._FakeResponses().length, 1);
+				});
+			
+			});
+		
 		});
 
 		context('response', function () {

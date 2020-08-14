@@ -102,6 +102,7 @@ const mod = {
 			// DATA
 
 			_DataCacheName: 'OLSKServiceWorkerCache-VERSION_ID_TOKEN',
+			_DataOriginPage: 'REFERRER_MATCH_TOKEN',
 
 			// CONTROL
 
@@ -131,6 +132,14 @@ const mod = {
 				// if (event.request.mode === 'cors') {
 				// 	return console.log('ignoring cors', event.request);
 				// }
+
+				if (event.request.mode === 'navigate' && !event.request.url.includes(mod._DataOriginPage)) {
+					return;
+				}
+
+				if (event.request.mode !== 'navigate' && !event.request.referrer.includes(mod._DataOriginPage)) {
+					return;
+				}
 
 				// if (!(event.request.referrer.match(/REFERRER_MATCH_TOKEN/) && event.request.mode === 'no-cors') && !event.request.url.match(/REFERRER_MATCH_TOKEN/)) {
 				// 	return console.log('ignoring referrer', event.request);
