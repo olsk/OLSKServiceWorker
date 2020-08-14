@@ -376,7 +376,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 					deepEqual(mod._FakeResponses, event._FakeResponses());
 				});
 
-				it('caches response', function () {
+				it('caches response in _DataVersionCacheName', function () {
 					deepEqual(mod._ValueCaches._FakeCaches(), uObject(mod._DataVersionCacheName, uObject(event.request.url, mod._FakeResponses[0])));
 				});
 			
