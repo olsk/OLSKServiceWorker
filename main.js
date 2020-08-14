@@ -70,7 +70,7 @@ const mod = {
 		});
 	},
 
-	OLSKServiceWorkerModule (param1, param2, param3) {
+	OLSKServiceWorkerModule (param1, param2, param3, param4) {
 		if (typeof param1 !== 'object' || param1 === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -143,7 +143,7 @@ const mod = {
 						return cacheResponse;
 					}
 
-					let networkResponse = await mod._ValueFetch(event.request);
+					let networkResponse = param4 ? await fetch(event.request) : await mod._ValueFetch(event.request);
 
 					if (networkResponse.status === 200) {
 						(await mod._ValueCaches.open(mod._DataCacheName)).put(event.request, networkResponse.clone());
@@ -187,7 +187,7 @@ const mod = {
 	},
 
 	OLSKServiceWorkerViewTemplate () {
-		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })(self, caches, fetch);\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
+		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
 	},
 
 	OLSKServiceWorkerView (inputData) {
