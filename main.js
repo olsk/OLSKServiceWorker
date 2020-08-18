@@ -97,7 +97,11 @@ const mod = {
 
 			OLSKServiceWorkerDidReceiveMessage (event) {
 				if (event.data.action === 'skipWaiting') {
-				  mod._ValueSelf.skipWaiting();
+				  return mod._ValueSelf.skipWaiting();
+				}
+
+				if (event.data === 'OLSKServiceWorkerClearVersionCacheMessage') {
+				  return mod.ControlClearCache();
 				}
 			},
 		

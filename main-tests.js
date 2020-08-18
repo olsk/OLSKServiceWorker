@@ -435,6 +435,22 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			deepEqual(item._FakeCalls().skipWaiting, 1);
 		});
 
+		it('calls ControlClearCache if data OLSKServiceWorkerClearVersionCacheMessage', function () {
+			const item = uFakeSelf();
+			const mod = Object.assign(uModule(item), {
+				_FakeClearCache: 0,
+				ControlClearCache() {
+					mod._FakeClearCache += 1;
+				},
+			});
+			
+			mod.OLSKServiceWorkerDidReceiveMessage({
+				data: 'OLSKServiceWorkerClearVersionCacheMessage',
+			});
+
+			deepEqual(mod._FakeClearCache, 1);
+		});
+
 		it('does nothing', function () {
 			const item = uFakeSelf();
 			const mod = uModule(item);
