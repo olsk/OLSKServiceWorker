@@ -18,6 +18,10 @@ describe('OLSKServiceWorker_Access', function () {
 		browser.assert.elements(OLSKServiceWorkerUpdateAlert, 0);
 	});
 
+	it('shows OLSKServiceWorkerLauncherFakeItemProxy', function () {
+		return browser.assert.OLSKLauncherItems('OLSKServiceWorkerLauncherFakeItemProxy', 1);
+	});
+
 	context('DebugFakeUpdateAlertVisible', function () {
 		
 		before(function() {

@@ -165,6 +165,41 @@ const mod = {
 			.split('VERSION_ID_TOKEN').join(inputData.VERSION_ID_TOKEN)
 			.split('ORIGIN_PAGE_PATH_TOKEN').join(inputData.ORIGIN_PAGE_PATH_TOKEN);
 	},
+
+	OLSKServiceWorkerLauncherFakeItemProxy () {
+		return {
+			LCHRecipeName: 'OLSKServiceWorkerLauncherFakeItemProxy',
+			LCHRecipeCallback () {},
+		};
+	},
+
+	OLSKServiceWorkerRecipes (param1, param2, param3, param4) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (!param2.serviceWorker) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param3 !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param4 !== 'boolean') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return [
+			mod.OLSKServiceWorkerLauncherFakeItemProxy(),
+		].filter(function (e) {
+			if (param4) {
+				return true;
+			}
+
+			return !(e.LCHRecipeSignature || e.LCHRecipeName).match(/Fake/);
+		});
+	},
 	
 };
 

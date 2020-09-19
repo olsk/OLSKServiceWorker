@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="/<%= OLSKSharedPageControllerSlug %>/__compiled/ui-style.css">
+	<link rel="stylesheet" type="text/css" href="/_shared/__external/normalize.css/normalize.css">
+	
+	<link rel="stylesheet" type="text/css" href="/_shared/__external/launchlet/__compiled/launchlet.css">
+	<script type="text/javascript" src="/_shared/__external/launchlet/__compiled/launchlet.js"></script>
 
+	<script type="text/javascript" src="/_shared/__external/OLSKInternational/main.js"></script>
+	<script type="text/javascript" src="/_shared/__external/OLSKString/main.js"></script>
 	<script type="text/javascript">
 		window.OLSKPublicConstants = function (inputData) {
 			return <%- JSON.stringify({
 				OLSKSharedPageCurrentLanguage,
 			}) %>[inputData];
 		};
+		window.OLSKFormatted = OLSKString.OLSKStringWithFormat;
+		window.OLSKLocalized = function(translationConstant) {
+			return OLSKInternational.OLSKInternationalLocalizedString(translationConstant, <%- JSON.stringify(OLSKLocalizedStringKeys().reduce(function(map, e) {
+					map[e] = OLSKLocalized(e);
+					return map;
+				}, {})) %>);
+		};
 	</script>
+
+	<script type="text/javascript">
+		window.exports = {};
+	</script>
+	<script type="text/javascript" src="/main.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/<%= OLSKSharedPageControllerSlug %>/__compiled/ui-style.css">
 </head>
 <body>
 
 <script src="/<%= OLSKSharedPageControllerSlug %>/__compiled/ui-behaviour.js"></script>
+
+<script src="/<%= OLSKSharedPageControllerSlug %>/ui-behaviour.js"></script>
+
+<button class="OLSKAppToolbarLauncherButton" onclick="OLSKServiceWorkerBehaviour.InterfaceLauncherButtonDidClick()"></button>
 
 </body>
 </html>

@@ -95,6 +95,26 @@ const uModule = function(param1 = uFakeSelf()) {
 	});
 };
 
+const uWindow = function (inputData = {}) {
+	return Object.assign({
+		prompt () {},
+		confirm () {},
+		location: {
+			reload () {},
+		},
+	}, inputData);
+};
+
+const uNavigator = function (inputData = {}) {
+	return Object.assign({
+		serviceWorker: {},
+	}, inputData);
+};
+
+const uLocalized = function (inputData) {
+	return inputData + 'LOCALIZED';
+};
+
 describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	it('throws if param1 not object', function() {
@@ -599,6 +619,74 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 	it('replaces ORIGIN_PAGE_PATH_TOKEN', function() {
 		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('ORIGIN_PAGE_PATH_TOKEN'), false);
 		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().ORIGIN_PAGE_PATH_TOKEN), true);
+	});
+
+});
+
+describe('OLSKServiceWorkerLauncherFakeItemProxy', function test_OLSKServiceWorkerLauncherFakeItemProxy() {
+
+	it('returns object', function () {
+		const item = mainModule.OLSKServiceWorkerLauncherFakeItemProxy();
+		deepEqual(item, {
+			LCHRecipeName: 'OLSKServiceWorkerLauncherFakeItemProxy',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+		
+		it('returns undefined', function () {
+			deepEqual(mainModule.OLSKServiceWorkerLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
+		});
+
+	});
+
+});
+
+describe('OLSKServiceWorkerRecipes', function test_OLSKServiceWorkerRecipes() {
+
+	it('throws if param1 not window', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerRecipes({}, uNavigator(), uLocalized, true);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not navigator', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerRecipes(uWindow(), {}, uLocalized, true);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), null, true);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param4 not boolean', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('includes production recipes', function () {
+		deepEqual(mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, false).map(function (e) {
+			return e.LCHRecipeSignature || e.LCHRecipeName;
+		}), Object.keys(mainModule).filter(function (e) {
+			return e.match(/Launcher/) && !e.match(/Fake/);
+		}));
+	});
+
+	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
+
+		it('includes all recipes', function () {
+			deepEqual(mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, true).map(function (e) {
+				return e.LCHRecipeSignature || e.LCHRecipeName;
+			}), Object.keys(mainModule).filter(function (e) {
+				return e.match(/Launcher/);
+			}));
+		});
+	
 	});
 
 });
