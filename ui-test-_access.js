@@ -22,6 +22,10 @@ describe('OLSKServiceWorker_Access', function () {
 		return browser.assert.OLSKLauncherItems('OLSKServiceWorkerLauncherFakeItemProxy', 1);
 	});
 
+	it('shows OLSKServiceWorkerLauncherItemDebugForceUpdate', function () {
+		return browser.assert.OLSKLauncherItems('OLSKServiceWorkerLauncherItemDebugForceUpdate', 1);
+	});
+
 	context('DebugFakeUpdateAlertVisible', function () {
 		
 		before(function() {

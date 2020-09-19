@@ -107,8 +107,15 @@ const uWindow = function (inputData = {}) {
 
 const uNavigator = function (inputData = {}) {
 	return Object.assign({
-		serviceWorker: {},
-	}, inputData);
+		serviceWorker: Object.assign({
+			async getRegistration () {
+				return {};
+			},
+			controller: {
+				postMessage () {},
+			},
+		}, inputData),
+	});
 };
 
 const uLocalized = function (inputData) {
@@ -637,6 +644,90 @@ describe('OLSKServiceWorkerLauncherFakeItemProxy', function test_OLSKServiceWork
 		
 		it('returns undefined', function () {
 			deepEqual(mainModule.OLSKServiceWorkerLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
+		});
+
+	});
+
+});
+
+describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServiceWorkerLauncherItemDebugForceUpdate() {
+
+	it('throws if param1 not window', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate({}, uNavigator(), uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not navigator', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), {}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized);
+
+		deepEqual(item, {
+			LCHRecipeSignature: 'OLSKServiceWorkerLauncherItemDebugForceUpdate',
+			LCHRecipeName: uLocalized('OLSKServiceWorkerLauncherItemDebugForceUpdateText'),
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('returns undefined', async function () {
+			deepEqual(await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized).LCHRecipeCallback(), undefined);
+		});
+
+		it('calls skipWaiting if waiting', async function () {
+			const item = [];
+
+			await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
+				reload () {
+					item.push('alfa');
+				},
+			}), uNavigator({
+				async getRegistration () {
+					return {
+						waiting: {
+							postMessage () {
+								item.push(...Array.from(arguments));
+							},
+						},
+					};
+				},
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, [{
+				action: 'skipWaiting',
+			}]);
+		});
+
+		it('calls postMessage then reload', async function () {
+			const item = [];
+
+			await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
+				location: {
+					reload () {
+						item.push('alfa');
+					},
+				},
+			}), uNavigator({
+				controller: {
+					postMessage () {
+						item.push(...Array.from(arguments));
+					},
+				},
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, ['OLSKServiceWorkerClearVersionCacheMessage', 'alfa']);
 		});
 
 	});

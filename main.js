@@ -173,6 +173,38 @@ const mod = {
 		};
 	},
 
+	OLSKServiceWorkerLauncherItemDebugForceUpdate (param1, param2, OLSKLocalized) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!param2.serviceWorker) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeSignature: 'OLSKServiceWorkerLauncherItemDebugForceUpdate',
+			LCHRecipeName: OLSKLocalized('OLSKServiceWorkerLauncherItemDebugForceUpdateText'),
+			async LCHRecipeCallback () {
+				const item = await param2.serviceWorker.getRegistration();
+
+				if (item.waiting) {
+					return item.waiting.postMessage({
+						action: 'skipWaiting',
+					});
+				}
+
+				param2.serviceWorker.controller.postMessage('OLSKServiceWorkerClearVersionCacheMessage');
+
+				param1.location.reload();
+			},
+		};
+	},
+
 	OLSKServiceWorkerRecipes (param1, param2, param3, param4) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -192,6 +224,7 @@ const mod = {
 
 		return [
 			mod.OLSKServiceWorkerLauncherFakeItemProxy(),
+			mod.OLSKServiceWorkerLauncherItemDebugForceUpdate(param1, param2, param3),
 		].filter(function (e) {
 			if (param4) {
 				return true;
