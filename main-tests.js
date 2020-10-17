@@ -698,7 +698,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 					return {
 						waiting: {
 							postMessage () {
-								item.push(...Array.from(arguments));
+								item.push(...arguments);
 							},
 						},
 					};
@@ -722,7 +722,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 			}), uNavigator({
 				controller: {
 					postMessage () {
-						item.push(...Array.from(arguments));
+						item.push(...arguments);
 					},
 				},
 			}), uLocalized).LCHRecipeCallback();
