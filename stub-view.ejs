@@ -17,11 +17,6 @@
 	<script type="text/javascript" src="/_shared/__external/OLSKInternational/main.js"></script>
 	<script type="text/javascript" src="/_shared/__external/OLSKString/main.js"></script>
 	<script type="text/javascript">
-		window.OLSKPublicConstants = function (inputData) {
-			return <%- JSON.stringify({
-				OLSKSharedPageCurrentLanguage,
-			}) %>[inputData];
-		};
 		window.OLSKFormatted = OLSKString.OLSKStringWithFormat;
 		window.OLSKLocalized = function(translationConstant) {
 			return OLSKInternational.OLSKInternationalLocalizedString(translationConstant, <%- JSON.stringify(OLSKLocalizedStringKeys().reduce(function(map, e) {
