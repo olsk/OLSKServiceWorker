@@ -188,6 +188,28 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 	
 	});
 
+	context('ControlAddPersistenceCacheURL', function test_ControlAddPersistenceCacheURL () {
+
+		it('throws if not string', function () {
+			throws(function () {
+				uModule(uFakeSelf()).ControlAddPersistenceCacheURL(null);
+			}, /ErrorInputNotValid/);
+		});
+		
+		it('excludes _DataPersistenceCacheName', async function () {
+			const item = Math.random().toString();
+
+			const mod = Object.assign(uModule(uFakeSelf()), {
+				_ValuePersistenceCacheURLs: [],
+			});
+			
+			mod.ControlAddPersistenceCacheURL(item);
+
+			deepEqual(mod._ValuePersistenceCacheURLs, [item]);
+		});
+	
+	});
+
 	context('OLSKServiceWorkerDidActivate', function test_OLSKServiceWorkerDidActivate () {
 		
 		it('calls event.waitUntil with mod.ControlClearCache()', function () {

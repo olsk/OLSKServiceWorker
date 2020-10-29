@@ -28,6 +28,7 @@ const main = {
 			_ValueSelf: param1,
 			_ValueCaches: param2,
 			_ValueFetch: param3,
+			_ValuePersistenceCacheURLs: [],
 
 			// DATA
 
@@ -45,6 +46,14 @@ const main = {
 						return mod._ValueCaches.delete(e);
 					})
 				);
+			},
+
+			ControlAddPersistenceCacheURL (inputData) {
+				if (typeof inputData !== 'string') {
+					throw new Error('OLSKErrorInputNotValid');
+				}
+
+				mod._ValuePersistenceCacheURLs.push(inputData);
 			},
 
 			// MESSAGE
