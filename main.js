@@ -1,4 +1,4 @@
-const mod = {
+const mainModule = {
 
 	OLSKServiceWorkerModule (param1, param2, param3, param4) {
 		if (typeof param1 !== 'object' || param1 === null) {
@@ -137,7 +137,7 @@ const mod = {
 	},
 
 	OLSKServiceWorkerViewTemplate () {
-		return `const mod = (function ${ mod.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ mod.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
+		return `const mod = (function ${ mainModule.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ mainModule.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
 	},
 
 	OLSKServiceWorkerView (inputData) {
@@ -165,7 +165,7 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		return mod.OLSKServiceWorkerViewTemplate()
+		return mainModule.OLSKServiceWorkerViewTemplate()
 			.split('VERSION_ID_TOKEN').join(inputData.VERSION_ID_TOKEN)
 			.split('ORIGIN_PAGE_PATH_TOKEN').join(inputData.ORIGIN_PAGE_PATH_TOKEN);
 	},
@@ -225,8 +225,8 @@ const mod = {
 		}
 
 		return [
-			mod.OLSKServiceWorkerLauncherFakeItemProxy(),
-			mod.OLSKServiceWorkerLauncherItemDebugForceUpdate(param1, param2, param3),
+			mainModule.OLSKServiceWorkerLauncherFakeItemProxy(),
+			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(param1, param2, param3),
 		].filter(function (e) {
 			if (param4) {
 				return true;
@@ -238,4 +238,4 @@ const mod = {
 	
 };
 
-Object.assign(exports, mod);
+Object.assign(exports, mainModule);
