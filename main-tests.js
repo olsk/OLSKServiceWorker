@@ -285,7 +285,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				deepEqual(item._FakeResponses(), []);
 			});
 			
-			it('ignores if ROCOAPI', async function () {
+			it('responds if ROCOAPI', async function () {
 				const item = uFetchEvent({
 					url: 'https://rosano.ca/api/alfa',
 					mode: 'cors',
