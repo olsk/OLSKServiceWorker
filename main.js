@@ -71,7 +71,7 @@ const main = {
 					return;
 				}
 
-				if (event.request.mode === 'cors' && !event.request.url.match(/^https\:\/\/rosano\.ca\/api/)) {
+				if (event.request.mode === 'cors' && !mod._ValuePersistenceCacheURLs.includes(event.request.url)) {
 					return;
 				}
 

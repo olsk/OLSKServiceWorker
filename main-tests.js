@@ -275,7 +275,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 		context('mode cors', function () {
 			
-			it('ignores if not ROCOAPI', async function () {
+			it('ignores if not in _ValuePersistenceCacheURLs', async function () {
 				const item = uFetchEvent({
 					mode: 'cors',
 				});
@@ -285,13 +285,18 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				deepEqual(item._FakeResponses(), []);
 			});
 			
-			it('responds if ROCOAPI', async function () {
+			it('responds', async function () {
+				const url = Math.random().toString();
+				const mod = uModule();
+
+				mod.ControlAddPersistenceCacheURL(url);
+				
 				const item = uFetchEvent({
-					url: 'https://rosano.ca/api/alfa',
+					url,
 					mode: 'cors',
 				});
 
-				await uModule().OLSKServiceWorkerDidFetch(item);
+				await mod.OLSKServiceWorkerDidFetch(item);
 
 				deepEqual(item._FakeResponses().length, 1);
 			});
