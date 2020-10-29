@@ -476,6 +476,25 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			deepEqual(mod._FakeClearCache, 1);
 		});
 
+		it('calls ControlAddPersistenceCacheURL if OLSKServiceWorkerAddPersistencCacheURL', function () {
+			const item = Math.random().toString();
+
+			const mod = Object.assign(uModule(uFakeSelf()), {
+				ControlAddPersistenceCacheURL: (function () {
+					mod._ControlAddPersistenceCacheURL = Array.from(arguments);
+				}),
+			});
+			
+			mod.OLSKServiceWorkerDidReceiveMessage({
+				data: {
+					OLSKMessageSignature: 'OLSKServiceWorkerAddPersistencCacheURL',
+					OLSKMessageArguments: [item],
+				},
+			});
+
+			deepEqual(mod._ControlAddPersistenceCacheURL, [item]);
+		});
+
 		it('does nothing', function () {
 			const item = uFakeSelf();
 			const mod = uModule(item);

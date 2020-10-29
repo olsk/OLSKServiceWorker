@@ -103,6 +103,14 @@ const main = {
 				if (event.data === 'OLSKServiceWorkerClearVersionCache') {
 				  return mod.ControlClearCache();
 				}
+
+				if (typeof event.data !== 'object' || event.data === null) {
+					return;
+				}
+
+				if (event.data.OLSKMessageSignature === 'OLSKServiceWorkerAddPersistencCacheURL') {
+					return mod.ControlAddPersistenceCacheURL(...event.data.OLSKMessageArguments);
+				}
 			},
 
 			OLSKServiceWorkerSkipWaiting () {
