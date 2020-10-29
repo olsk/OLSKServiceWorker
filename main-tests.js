@@ -290,7 +290,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				const mod = uModule();
 
 				mod.ControlAddPersistenceCacheURL(url);
-				
+
 				const item = uFetchEvent({
 					url,
 					mode: 'cors',
@@ -453,12 +453,17 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 			});
 
-			context('ROCOAPI', function () {
+			context('_ValuePersistenceCacheURLs', function () {
 
+				const url = Math.random().toString();
 				const event = uFetchEvent({
-					url: 'https://rosano.ca/api/alfa',
+					url,
 				});
 				const mod = uModule();
+
+				before(function () {
+					return mod.ControlAddPersistenceCacheURL(url);
+				});
 
 				before(function () {
 					return mod.OLSKServiceWorkerDidFetch(event);
