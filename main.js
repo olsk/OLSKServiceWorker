@@ -96,13 +96,17 @@ const mod = {
 			},
 
 			OLSKServiceWorkerDidReceiveMessage (event) {
-				if (event.data.action === 'skipWaiting') {
-				  return mod._ValueSelf.skipWaiting();
+				if (event.data === 'OLSKMessageSkipWaiting') {
+				  return mod.OLSKMessageSkipWaiting();
 				}
 
 				if (event.data === 'OLSKServiceWorkerClearVersionCacheMessage') {
 				  return mod.ControlClearCache();
 				}
+			},
+
+			OLSKMessageSkipWaiting () {
+				return mod._ValueSelf.skipWaiting();
 			},
 		
 		};
@@ -193,9 +197,7 @@ const mod = {
 				const item = await param2.serviceWorker.getRegistration();
 
 				if (item.waiting) {
-					return item.waiting.postMessage({
-						action: 'skipWaiting',
-					});
+					return item.waiting.postMessage('OLSKMessageSkipWaiting');
 				}
 
 				param2.serviceWorker.controller.postMessage('OLSKServiceWorkerClearVersionCacheMessage');

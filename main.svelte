@@ -28,9 +28,7 @@ const mod = {
 	// CONTROL
 
 	ControlSkipWaiting () {
-		mod._ValueNextWorker.postMessage({
-			action: 'skipWaiting',
-		});
+		mod._ValueNextWorker.postMessage('OLSKMessageSkipWaiting');
 	},
 
 	// MESSAGE

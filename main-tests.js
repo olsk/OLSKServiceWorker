@@ -449,14 +449,12 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	context('OLSKServiceWorkerDidReceiveMessage', function () {
 		
-		it('calls skipWaiting if data.action skipWaiting', function () {
+		it('calls skipWaiting if OLSKMessageSkipWaiting', function () {
 			const item = uFakeSelf();
 			const mod = uModule(item);
 			
 			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: {
-					action: 'skipWaiting',
-				},
+				data: 'OLSKMessageSkipWaiting',
 			});
 
 			deepEqual(item._FakeCalls().skipWaiting, 1);
@@ -686,7 +684,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 			deepEqual(await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized).LCHRecipeCallback(), undefined);
 		});
 
-		it('calls skipWaiting if waiting', async function () {
+		it('calls OLSKMessageSkipWaiting if waiting', async function () {
 			const item = [];
 
 			await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
@@ -705,9 +703,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 				},
 			}), uLocalized).LCHRecipeCallback();
 
-			deepEqual(item, [{
-				action: 'skipWaiting',
-			}]);
+			deepEqual(item, ['OLSKMessageSkipWaiting']);
 		});
 
 		it('calls postMessage then reload', async function () {
