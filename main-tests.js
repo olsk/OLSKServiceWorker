@@ -511,36 +511,41 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			
 		});
 
-		it('calls ControlAddPersistenceCacheURL if OLSKServiceWorkerAddPersistencCacheURL', function () {
-			const item = Math.random().toString();
+		context('object', function () {
+			
+			it('calls method if formatted', function () {
+				const OLSKMessageSignature = 'OLSKServiceWorker_' + Date.now().toString();
+				const OLSKMessageArguments = [Math.random().toString()];
 
-			const mod = Object.assign(uModule(uFakeSelf()), {
-				ControlAddPersistenceCacheURL: (function () {
-					mod._ControlAddPersistenceCacheURL = Array.from(arguments);
-				}),
+				deepEqual(Object.assign(uModule(uFakeSelf()), {
+					[OLSKMessageSignature]: (function () {
+						return Array.from(arguments)
+					}),
+				}).OLSKServiceWorkerDidReceiveMessage({
+					data: {
+						OLSKMessageSignature,
+						OLSKMessageArguments,
+					},
+				}), OLSKMessageArguments);
 			});
 			
-			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: {
-					OLSKMessageSignature: 'OLSKServiceWorkerAddPersistencCacheURL',
-					OLSKMessageArguments: [item],
-				},
+			it('does nothing', function () {
+				const item = [];
+				const data = '_OLSKServiceWorker_' + Date.now().toString();
+
+				const mod = Object.assign(uModule(uFakeSelf()), {
+					[data]: (function () {
+						item.push(null);
+					}),
+				});
+				
+				mod.OLSKServiceWorkerDidReceiveMessage({
+					data,
+				});
+
+				deepEqual(item, []);
 			});
-
-			deepEqual(mod._ControlAddPersistenceCacheURL, [item]);
-		});
-
-		it('does nothing', function () {
-			const item = uFakeSelf();
-			const mod = uModule(item);
-			
-			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: {
-					action: 'alfa',
-				},
-			});
-
-			deepEqual(item._FakeCalls().skipWaiting, undefined);
+		
 		});
 	
 	});
@@ -575,6 +580,22 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			});
 			
 			deepEqual(mod.OLSKServiceWorker_SkipWaiting(), item);
+		});
+	
+	});
+
+	context('OLSKServiceWorker_AddPersistencCacheURL', function test_OLSKServiceWorker_AddPersistencCacheURL () {
+
+		it('calls ControlAddPersistenceCacheURL', async function () {
+			const item = Math.random().toString();
+
+			const mod = Object.assign(uModule(uFakeSelf()), {
+				ControlAddPersistenceCacheURL: (function () {
+					return Array.from(arguments);
+				}),
+			});
+			
+			deepEqual(mod.OLSKServiceWorker_AddPersistencCacheURL(item), [item]);
 		});
 	
 	});

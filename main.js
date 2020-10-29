@@ -113,8 +113,8 @@ const main = {
 					return;
 				}
 
-				if (event.data.OLSKMessageSignature === 'OLSKServiceWorkerAddPersistencCacheURL') {
-					return mod.ControlAddPersistenceCacheURL(...event.data.OLSKMessageArguments);
+				if (typeof event.data.OLSKMessageSignature === 'string' && event.data.OLSKMessageSignature.startsWith('OLSKServiceWorker_')) {
+					return mod[event.data.OLSKMessageSignature](...event.data.OLSKMessageArguments);
 				}
 			},
 
@@ -124,6 +124,10 @@ const main = {
 
 			OLSKServiceWorker_SkipWaiting () {
 				return mod._ValueSelf.skipWaiting();
+			},
+
+			OLSKServiceWorker_AddPersistencCacheURL (inputData) {
+				return mod.ControlAddPersistenceCacheURL(inputData);
 			},
 		
 		};
