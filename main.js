@@ -105,12 +105,8 @@ const main = {
 			},
 
 			OLSKServiceWorkerDidReceiveMessage (event) {
-				if (event.data === 'OLSKServiceWorkerSkipWaiting') {
-				  return mod.OLSKServiceWorkerSkipWaiting();
-				}
-
-				if (event.data === 'OLSKServiceWorkerClearVersionCache') {
-				  return mod.ControlClearCache();
+				if (typeof event.data === 'string' && event.data.startsWith('OLSKServiceWorker')) {
+					return mod[event.data]();
 				}
 
 				if (typeof event.data !== 'object' || event.data === null) {
@@ -120,6 +116,10 @@ const main = {
 				if (event.data.OLSKMessageSignature === 'OLSKServiceWorkerAddPersistencCacheURL') {
 					return mod.ControlAddPersistenceCacheURL(...event.data.OLSKMessageArguments);
 				}
+			},
+
+			OLSKServiceWorkerClearVersionCache () {
+				return mod.ControlClearCache();
 			},
 
 			OLSKServiceWorkerSkipWaiting () {

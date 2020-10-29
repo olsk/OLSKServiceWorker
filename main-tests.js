@@ -480,32 +480,43 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 	});
 
 	context('OLSKServiceWorkerDidReceiveMessage', function test_OLSKServiceWorkerDidReceiveMessage () {
+
+		context('string', function () {
+			
+			it('calls method if formatted', function () {
+				const item = [];
+				const data = 'OLSKServiceWorker' + Date.now().toString();
+
+				const mod = Object.assign(uModule(uFakeSelf()), {
+					[data]: (function () {
+						item.push(null);
+					}),
+				});
+				
+				mod.OLSKServiceWorkerDidReceiveMessage({
+					data,
+				});
+
+				deepEqual(item, [null]);
+			});
+			
+			it('does nothing', function () {
+				const item = [];
+				const data = '_OLSKServiceWorker' + Date.now().toString();
+
+				const mod = Object.assign(uModule(uFakeSelf()), {
+					[data]: (function () {
+						item.push(null);
+					}),
+				});
+				
+				mod.OLSKServiceWorkerDidReceiveMessage({
+					data,
+				});
+
+				deepEqual(item, []);
+			});
 		
-		it('calls skipWaiting if OLSKServiceWorkerSkipWaiting', function () {
-			const item = uFakeSelf();
-			const mod = uModule(item);
-			
-			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: 'OLSKServiceWorkerSkipWaiting',
-			});
-
-			deepEqual(item._FakeCalls().skipWaiting, 1);
-		});
-
-		it('calls ControlClearCache if OLSKServiceWorkerClearVersionCache', function () {
-			const item = uFakeSelf();
-			const mod = Object.assign(uModule(item), {
-				_FakeClearCache: 0,
-				ControlClearCache() {
-					mod._FakeClearCache += 1;
-				},
-			});
-			
-			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: 'OLSKServiceWorkerClearVersionCache',
-			});
-
-			deepEqual(mod._FakeClearCache, 1);
 		});
 
 		it('calls ControlAddPersistenceCacheURL if OLSKServiceWorkerAddPersistencCacheURL', function () {
@@ -538,6 +549,40 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			});
 
 			deepEqual(item._FakeCalls().skipWaiting, undefined);
+		});
+	
+	});
+
+	context('OLSKServiceWorkerClearVersionCache', function test_OLSKServiceWorkerClearVersionCache () {
+
+		it('calls ControlClearCache', async function () {
+			const item = Math.random().toString();
+
+			const mod = Object.assign(uModule(uFakeSelf()), {
+				ControlClearCache: (function () {
+					return item
+				}),
+			});
+			
+			deepEqual(mod.OLSKServiceWorkerClearVersionCache(), item);
+		});
+	
+	});
+
+	context('OLSKServiceWorkerSkipWaiting', function test_OLSKServiceWorkerSkipWaiting () {
+
+		it('calls ControlClearCache', async function () {
+			const item = Math.random().toString();
+
+			const mod = Object.assign(uModule(uFakeSelf()), {
+				_ValueSelf: {
+					skipWaiting: (function () {
+						return item;
+					}),
+				},
+			});
+			
+			deepEqual(mod.OLSKServiceWorkerSkipWaiting(), item);
 		});
 	
 	});
