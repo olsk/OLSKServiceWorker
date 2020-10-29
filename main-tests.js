@@ -162,7 +162,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 		deepEqual(typeof uModule(), 'object');
 	});
 
-	context('ControlClearCache', function () {
+	context('ControlClearCache', function test_ControlClearCache () {
 		
 		it('calls caches.delete on caches.all', async function () {
 			const item = uFakeCaches(['alfa', 'bravo']);
@@ -188,7 +188,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 	
 	});
 
-	context('OLSKServiceWorkerDidActivate', function () {
+	context('OLSKServiceWorkerDidActivate', function test_OLSKServiceWorkerDidActivate () {
 		
 		it('calls event.waitUntil with mod.ControlClearCache()', function () {
 			const item = {};
@@ -210,7 +210,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	});
 
-	context('OLSKServiceWorkerDidFetch', function () {
+	context('OLSKServiceWorkerDidFetch', function test_OLSKServiceWorkerDidFetch () {
 
 		const uFetchEvent = function (inputData) {
 			const _FakeResponses = [];
@@ -447,7 +447,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 	
 	});
 
-	context('OLSKServiceWorkerDidReceiveMessage', function () {
+	context('OLSKServiceWorkerDidReceiveMessage', function test_OLSKServiceWorkerDidReceiveMessage () {
 		
 		it('calls skipWaiting if OLSKServiceWorkerSkipWaiting', function () {
 			const item = uFakeSelf();
