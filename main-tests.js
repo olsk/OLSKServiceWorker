@@ -484,39 +484,31 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 		context('string', function () {
 			
 			it('calls method if formatted', function () {
-				const item = [];
+				const item = Math.random().toString();
 				const data = 'OLSKServiceWorker_' + Date.now().toString();
 
-				const mod = Object.assign(uModule(uFakeSelf()), {
+				deepEqual(Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
-						item.push(null);
+						return item;
 					}),
-				});
-				
-				mod.OLSKServiceWorkerDidReceiveMessage({
+				}).OLSKServiceWorkerDidReceiveMessage({
 					data,
-				});
-
-				deepEqual(item, [null]);
+				}), item);
 			});
 			
 			it('does nothing', function () {
-				const item = [];
+				const item = Math.random().toString();
 				const data = '_OLSKServiceWorker_' + Date.now().toString();
 
-				const mod = Object.assign(uModule(uFakeSelf()), {
+				deepEqual(Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
-						item.push(null);
+						return item;
 					}),
-				});
-				
-				mod.OLSKServiceWorkerDidReceiveMessage({
+				}).OLSKServiceWorkerDidReceiveMessage({
 					data,
-				});
-
-				deepEqual(item, []);
+				}), undefined);
 			});
-		
+			
 		});
 
 		it('calls ControlAddPersistenceCacheURL if OLSKServiceWorkerAddPersistencCacheURL', function () {
