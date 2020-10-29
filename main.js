@@ -105,7 +105,7 @@ const main = {
 			},
 
 			OLSKServiceWorkerDidReceiveMessage (event) {
-				if (typeof event.data === 'string' && event.data.startsWith('OLSKServiceWorker')) {
+				if (typeof event.data === 'string' && event.data.startsWith('OLSKServiceWorker_')) {
 					return mod[event.data]();
 				}
 
@@ -118,11 +118,11 @@ const main = {
 				}
 			},
 
-			OLSKServiceWorkerClearVersionCache () {
+			OLSKServiceWorker_ClearVersionCache () {
 				return mod.ControlClearCache();
 			},
 
-			OLSKServiceWorkerSkipWaiting () {
+			OLSKServiceWorker_SkipWaiting () {
 				return mod._ValueSelf.skipWaiting();
 			},
 		
@@ -214,10 +214,10 @@ const main = {
 				const item = await param2.serviceWorker.getRegistration();
 
 				if (item.waiting) {
-					return item.waiting.postMessage('OLSKServiceWorkerSkipWaiting');
+					return item.waiting.postMessage('OLSKServiceWorker_SkipWaiting');
 				}
 
-				param2.serviceWorker.controller.postMessage('OLSKServiceWorkerClearVersionCache');
+				param2.serviceWorker.controller.postMessage('OLSKServiceWorker_ClearVersionCache');
 
 				param1.location.reload();
 			},

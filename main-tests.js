@@ -485,7 +485,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			
 			it('calls method if formatted', function () {
 				const item = [];
-				const data = 'OLSKServiceWorker' + Date.now().toString();
+				const data = 'OLSKServiceWorker_' + Date.now().toString();
 
 				const mod = Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
@@ -502,7 +502,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			
 			it('does nothing', function () {
 				const item = [];
-				const data = '_OLSKServiceWorker' + Date.now().toString();
+				const data = '_OLSKServiceWorker_' + Date.now().toString();
 
 				const mod = Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
@@ -553,7 +553,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 	
 	});
 
-	context('OLSKServiceWorkerClearVersionCache', function test_OLSKServiceWorkerClearVersionCache () {
+	context('OLSKServiceWorker_ClearVersionCache', function test_OLSKServiceWorker_ClearVersionCache () {
 
 		it('calls ControlClearCache', async function () {
 			const item = Math.random().toString();
@@ -564,12 +564,12 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				}),
 			});
 			
-			deepEqual(mod.OLSKServiceWorkerClearVersionCache(), item);
+			deepEqual(mod.OLSKServiceWorker_ClearVersionCache(), item);
 		});
 	
 	});
 
-	context('OLSKServiceWorkerSkipWaiting', function test_OLSKServiceWorkerSkipWaiting () {
+	context('OLSKServiceWorker_SkipWaiting', function test_OLSKServiceWorker_SkipWaiting () {
 
 		it('calls ControlClearCache', async function () {
 			const item = Math.random().toString();
@@ -582,7 +582,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				},
 			});
 			
-			deepEqual(mod.OLSKServiceWorkerSkipWaiting(), item);
+			deepEqual(mod.OLSKServiceWorker_SkipWaiting(), item);
 		});
 	
 	});
@@ -780,7 +780,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 			deepEqual(await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized).LCHRecipeCallback(), undefined);
 		});
 
-		it('calls OLSKServiceWorkerSkipWaiting if waiting', async function () {
+		it('calls OLSKServiceWorker_SkipWaiting if waiting', async function () {
 			const item = [];
 
 			await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
@@ -799,7 +799,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 				},
 			}), uLocalized).LCHRecipeCallback();
 
-			deepEqual(item, ['OLSKServiceWorkerSkipWaiting']);
+			deepEqual(item, ['OLSKServiceWorker_SkipWaiting']);
 		});
 
 		it('calls postMessage then reload', async function () {
@@ -819,7 +819,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 				},
 			}), uLocalized).LCHRecipeCallback();
 
-			deepEqual(item, ['OLSKServiceWorkerClearVersionCache', 'alfa']);
+			deepEqual(item, ['OLSKServiceWorker_ClearVersionCache', 'alfa']);
 		});
 
 	});
