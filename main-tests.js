@@ -1,6 +1,6 @@
 const { throws, deepEqual } = require('assert');
 
-const mainModule = require('./main.js');
+const main = require('./main.js');
 
 const uStubTokens = function (inputData = {}) {
 	return Object.assign({
@@ -90,7 +90,7 @@ const uFakeFetch = async function (inputData) {
 };
 
 const uModule = function(param1 = uFakeSelf()) {
-	return Object.assign(mainModule.OLSKServiceWorkerModule(param1, uFakeCaches(), uFakeFetch), {
+	return Object.assign(main.OLSKServiceWorkerModule(param1, uFakeCaches(), uFakeFetch), {
 		_DataOriginPage: '/charlie',
 	});
 };
@@ -126,13 +126,13 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	it('throws if param1 not object', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerModule(null, uFakeCaches());
+			main.OLSKServiceWorkerModule(null, uFakeCaches());
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param1 not valid', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerModule({
+			main.OLSKServiceWorkerModule({
 				addEventListener: {},
 			}, uFakeCaches());
 		}, /OLSKErrorInputNotValid/);
@@ -140,13 +140,13 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	it('throws if param2 not object', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerModule(uFakeSelf(), null);
+			main.OLSKServiceWorkerModule(uFakeSelf(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param2 not valid', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerModule(uFakeSelf(), {
+			main.OLSKServiceWorkerModule(uFakeSelf(), {
 				keys: {},
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -154,7 +154,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	it('throws if param3 not function', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerModule(uFakeSelf(), uFakeCaches(), null);
+			main.OLSKServiceWorkerModule(uFakeSelf(), uFakeCaches(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
@@ -497,13 +497,13 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 
 	it('throws if param1 not object', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerInitialization(null, uModule());
+			main.OLSKServiceWorkerInitialization(null, uModule());
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param1 not valid', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerInitialization({
+			main.OLSKServiceWorkerInitialization({
 				addEventListener: {},
 			}, uModule());
 		}, /OLSKErrorInputNotValid/);
@@ -511,27 +511,27 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 
 	it('throws if param2 not object', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerInitialization(uFakeSelf(), null);
+			main.OLSKServiceWorkerInitialization(uFakeSelf(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param2 not valid', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerInitialization(uFakeSelf(), {
+			main.OLSKServiceWorkerInitialization(uFakeSelf(), {
 				OLSKServiceWorkerDidReceiveMessage: {},
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns undefined', function() {
-		deepEqual(mainModule.OLSKServiceWorkerInitialization(uFakeSelf(), uModule()), undefined);
+		deepEqual(main.OLSKServiceWorkerInitialization(uFakeSelf(), uModule()), undefined);
 	});
 
 	it('calls addEventListener for activate', function () {
 		const item = uFakeSelf();
 		const mod = uModule(item);
 		
-		mainModule.OLSKServiceWorkerInitialization(item, mod);
+		main.OLSKServiceWorkerInitialization(item, mod);
 
 		deepEqual(item._FakeListeners().activate, mod.OLSKServiceWorkerDidActivate);
 	});
@@ -540,7 +540,7 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 		const item = uFakeSelf();
 		const mod = uModule(item);
 		
-		mainModule.OLSKServiceWorkerInitialization(item, mod);
+		main.OLSKServiceWorkerInitialization(item, mod);
 
 		deepEqual(item._FakeListeners().fetch, mod.OLSKServiceWorkerDidFetch);
 	});
@@ -549,7 +549,7 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 		const item = uFakeSelf();
 		const mod = uModule(item);
 		
-		mainModule.OLSKServiceWorkerInitialization(item, mod);
+		main.OLSKServiceWorkerInitialization(item, mod);
 
 		deepEqual(item._FakeListeners().message, mod.OLSKServiceWorkerDidReceiveMessage);
 	});
@@ -559,7 +559,7 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 describe('OLSKServiceWorkerViewTemplate', function test_OLSKServiceWorkerViewTemplate() {
 
 	it('returns string', function() {
-		deepEqual(mainModule.OLSKServiceWorkerViewTemplate(), `const mod = (function ${ mainModule.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ mainModule.OLSKServiceWorkerInitialization.toString() })(self, mod);`);
+		deepEqual(main.OLSKServiceWorkerViewTemplate(), `const mod = (function ${ main.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ main.OLSKServiceWorkerInitialization.toString() })(self, mod);`);
 	});
 
 });
@@ -568,13 +568,13 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
 	it('throws if not object', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView(null);
+			main.OLSKServiceWorkerView(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if VERSION_ID_TOKEN not string', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView(uStubTokens({
+			main.OLSKServiceWorkerView(uStubTokens({
 				VERSION_ID_TOKEN: null,
 			}));
 		}, /OLSKErrorInputNotValid/);
@@ -582,7 +582,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
 	it('throws if VERSION_ID_TOKEN not filled', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView(uStubTokens({
+			main.OLSKServiceWorkerView(uStubTokens({
 				VERSION_ID_TOKEN: '',
 			}));
 		}, /OLSKErrorInputNotValid/);
@@ -590,7 +590,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
 	it('throws if VERSION_ID_TOKEN contains whitespace', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView(uStubTokens({
+			main.OLSKServiceWorkerView(uStubTokens({
 				VERSION_ID_TOKEN: 'alfa bravo',
 			}));
 		}, /OLSKErrorInputNotValid/);
@@ -598,7 +598,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
 	it('throws if ORIGIN_PAGE_PATH_TOKEN not string', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView(uStubTokens({
+			main.OLSKServiceWorkerView(uStubTokens({
 				ORIGIN_PAGE_PATH_TOKEN: null,
 			}));
 		}, /OLSKErrorInputNotValid/);
@@ -606,24 +606,24 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 
 	it('throws if ORIGIN_PAGE_PATH_TOKEN not filled', function() {
 		throws(function() {
-			mainModule.OLSKServiceWorkerView(uStubTokens({
+			main.OLSKServiceWorkerView(uStubTokens({
 				ORIGIN_PAGE_PATH_TOKEN: '',
 			}));
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns string ', function() {
-		deepEqual(typeof mainModule.OLSKServiceWorkerView(uStubTokens()), 'string');
+		deepEqual(typeof main.OLSKServiceWorkerView(uStubTokens()), 'string');
 	});
 
 	it('replaces VERSION_ID_TOKEN', function() {
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('VERSION_ID_TOKEN'), false);
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().VERSION_ID_TOKEN), true);
+		deepEqual(main.OLSKServiceWorkerView(uStubTokens()).includes('VERSION_ID_TOKEN'), false);
+		deepEqual(main.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().VERSION_ID_TOKEN), true);
 	});
 
 	it('replaces ORIGIN_PAGE_PATH_TOKEN', function() {
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes('ORIGIN_PAGE_PATH_TOKEN'), false);
-		deepEqual(mainModule.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().ORIGIN_PAGE_PATH_TOKEN), true);
+		deepEqual(main.OLSKServiceWorkerView(uStubTokens()).includes('ORIGIN_PAGE_PATH_TOKEN'), false);
+		deepEqual(main.OLSKServiceWorkerView(uStubTokens()).includes(uStubTokens().ORIGIN_PAGE_PATH_TOKEN), true);
 	});
 
 });
@@ -631,7 +631,7 @@ describe('OLSKServiceWorkerView', function test_OLSKServiceWorkerView() {
 describe('OLSKServiceWorkerLauncherFakeItemProxy', function test_OLSKServiceWorkerLauncherFakeItemProxy() {
 
 	it('returns object', function () {
-		const item = mainModule.OLSKServiceWorkerLauncherFakeItemProxy();
+		const item = main.OLSKServiceWorkerLauncherFakeItemProxy();
 		deepEqual(item, {
 			LCHRecipeName: 'OLSKServiceWorkerLauncherFakeItemProxy',
 			LCHRecipeCallback: item.LCHRecipeCallback,
@@ -641,7 +641,7 @@ describe('OLSKServiceWorkerLauncherFakeItemProxy', function test_OLSKServiceWork
 	context('LCHRecipeCallback', function () {
 		
 		it('returns undefined', function () {
-			deepEqual(mainModule.OLSKServiceWorkerLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
+			deepEqual(main.OLSKServiceWorkerLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
 		});
 
 	});
@@ -652,24 +652,24 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 
 	it('throws if param1 not window', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate({}, uNavigator(), uLocalized);
+			main.OLSKServiceWorkerLauncherItemDebugForceUpdate({}, uNavigator(), uLocalized);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param2 not navigator', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), {}, uLocalized);
+			main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), {}, uLocalized);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param3 not OLSKLocalized', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), null);
+			main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized);
+		const item = main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized);
 
 		deepEqual(item, {
 			LCHRecipeSignature: 'OLSKServiceWorkerLauncherItemDebugForceUpdate',
@@ -681,13 +681,13 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 	context('LCHRecipeCallback', function () {
 
 		it('returns undefined', async function () {
-			deepEqual(await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized).LCHRecipeCallback(), undefined);
+			deepEqual(await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized).LCHRecipeCallback(), undefined);
 		});
 
 		it('calls OLSKMessageSkipWaiting if waiting', async function () {
 			const item = [];
 
-			await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
+			await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
 				reload () {
 					item.push('alfa');
 				},
@@ -709,7 +709,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 		it('calls postMessage then reload', async function () {
 			const item = [];
 
-			await mainModule.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
+			await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
 				location: {
 					reload () {
 						item.push('alfa');
@@ -734,32 +734,32 @@ describe('OLSKServiceWorkerRecipes', function test_OLSKServiceWorkerRecipes() {
 
 	it('throws if param1 not window', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerRecipes({}, uNavigator(), uLocalized, true);
+			main.OLSKServiceWorkerRecipes({}, uNavigator(), uLocalized, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param2 not navigator', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerRecipes(uWindow(), {}, uLocalized, true);
+			main.OLSKServiceWorkerRecipes(uWindow(), {}, uLocalized, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param3 not OLSKLocalized', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), null, true);
+			main.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), null, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param4 not boolean', function () {
 		throws(function () {
-			mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, null);
+			main.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('includes production recipes', function () {
-		deepEqual(mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, false).map(function (e) {
+		deepEqual(main.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, false).map(function (e) {
 			return e.LCHRecipeSignature || e.LCHRecipeName;
-		}), Object.keys(mainModule).filter(function (e) {
+		}), Object.keys(main).filter(function (e) {
 			return e.match(/Launcher/) && !e.match(/Fake/);
 		}));
 	});
@@ -767,9 +767,9 @@ describe('OLSKServiceWorkerRecipes', function test_OLSKServiceWorkerRecipes() {
 	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
 
 		it('includes all recipes', function () {
-			deepEqual(mainModule.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, true).map(function (e) {
+			deepEqual(main.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, true).map(function (e) {
 				return e.LCHRecipeSignature || e.LCHRecipeName;
-			}), Object.keys(mainModule).filter(function (e) {
+			}), Object.keys(main).filter(function (e) {
 				return e.match(/Launcher/);
 			}));
 		});
