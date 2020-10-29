@@ -593,7 +593,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 	
 	});
 
-	context('OLSKServiceWorker_AddPersistencCacheURL', function test_OLSKServiceWorker_AddPersistencCacheURL () {
+	context('OLSKServiceWorker_AddPersistenceCacheURL', function test_OLSKServiceWorker_AddPersistenceCacheURL () {
 
 		it('calls ControlAddPersistenceCacheURL', async function () {
 			const item = Math.random().toString();
@@ -604,7 +604,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				}),
 			});
 			
-			deepEqual(mod.OLSKServiceWorker_AddPersistencCacheURL(item), [item]);
+			deepEqual(mod.OLSKServiceWorker_AddPersistenceCacheURL(item), [item]);
 		});
 	
 	});

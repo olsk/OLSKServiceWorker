@@ -130,7 +130,7 @@ const main = {
 				return mod._ValueSelf.skipWaiting();
 			},
 
-			OLSKServiceWorker_AddPersistencCacheURL (inputData) {
+			OLSKServiceWorker_AddPersistenceCacheURL (inputData) {
 				return mod.ControlAddPersistenceCacheURL(inputData);
 			},
 		
