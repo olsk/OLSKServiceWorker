@@ -96,16 +96,16 @@ const main = {
 			},
 
 			OLSKServiceWorkerDidReceiveMessage (event) {
-				if (event.data === 'OLSKMessageSkipWaiting') {
-				  return mod.OLSKMessageSkipWaiting();
+				if (event.data === 'OLSKServiceWorkerSkipWaiting') {
+				  return mod.OLSKServiceWorkerSkipWaiting();
 				}
 
-				if (event.data === 'OLSKServiceWorkerClearVersionCacheMessage') {
+				if (event.data === 'OLSKServiceWorkerClearVersionCache') {
 				  return mod.ControlClearCache();
 				}
 			},
 
-			OLSKMessageSkipWaiting () {
+			OLSKServiceWorkerSkipWaiting () {
 				return mod._ValueSelf.skipWaiting();
 			},
 		
@@ -197,10 +197,10 @@ const main = {
 				const item = await param2.serviceWorker.getRegistration();
 
 				if (item.waiting) {
-					return item.waiting.postMessage('OLSKMessageSkipWaiting');
+					return item.waiting.postMessage('OLSKServiceWorkerSkipWaiting');
 				}
 
-				param2.serviceWorker.controller.postMessage('OLSKServiceWorkerClearVersionCacheMessage');
+				param2.serviceWorker.controller.postMessage('OLSKServiceWorkerClearVersionCache');
 
 				param1.location.reload();
 			},

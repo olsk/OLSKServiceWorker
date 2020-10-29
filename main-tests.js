@@ -449,18 +449,18 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 	context('OLSKServiceWorkerDidReceiveMessage', function () {
 		
-		it('calls skipWaiting if OLSKMessageSkipWaiting', function () {
+		it('calls skipWaiting if OLSKServiceWorkerSkipWaiting', function () {
 			const item = uFakeSelf();
 			const mod = uModule(item);
 			
 			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: 'OLSKMessageSkipWaiting',
+				data: 'OLSKServiceWorkerSkipWaiting',
 			});
 
 			deepEqual(item._FakeCalls().skipWaiting, 1);
 		});
 
-		it('calls ControlClearCache if data OLSKServiceWorkerClearVersionCacheMessage', function () {
+		it('calls ControlClearCache if OLSKServiceWorkerClearVersionCache', function () {
 			const item = uFakeSelf();
 			const mod = Object.assign(uModule(item), {
 				_FakeClearCache: 0,
@@ -470,7 +470,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			});
 			
 			mod.OLSKServiceWorkerDidReceiveMessage({
-				data: 'OLSKServiceWorkerClearVersionCacheMessage',
+				data: 'OLSKServiceWorkerClearVersionCache',
 			});
 
 			deepEqual(mod._FakeClearCache, 1);
@@ -684,7 +684,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 			deepEqual(await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow(), uNavigator(), uLocalized).LCHRecipeCallback(), undefined);
 		});
 
-		it('calls OLSKMessageSkipWaiting if waiting', async function () {
+		it('calls OLSKServiceWorkerSkipWaiting if waiting', async function () {
 			const item = [];
 
 			await main.OLSKServiceWorkerLauncherItemDebugForceUpdate(uWindow({
@@ -703,7 +703,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 				},
 			}), uLocalized).LCHRecipeCallback();
 
-			deepEqual(item, ['OLSKMessageSkipWaiting']);
+			deepEqual(item, ['OLSKServiceWorkerSkipWaiting']);
 		});
 
 		it('calls postMessage then reload', async function () {
@@ -723,7 +723,7 @@ describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServ
 				},
 			}), uLocalized).LCHRecipeCallback();
 
-			deepEqual(item, ['OLSKServiceWorkerClearVersionCacheMessage', 'alfa']);
+			deepEqual(item, ['OLSKServiceWorkerClearVersionCache', 'alfa']);
 		});
 
 	});
