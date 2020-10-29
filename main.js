@@ -88,13 +88,13 @@ const main = {
 				// };
 
 				return event.respondWith(async function() {
-					let cacheResponse = await mod._ValueCaches.match(event.request);
+					const cacheResponse = await mod._ValueCaches.match(event.request);
 
 					if (cacheResponse) {
 						return cacheResponse;
 					}
 
-					let networkResponse = param4 ? await fetch(event.request) : await mod._ValueFetch(event.request);
+					const networkResponse = param4 ? await fetch(event.request) : await mod._ValueFetch(event.request);
 
 					if (networkResponse.status === 200) {
 						(await mod._ValueCaches.open(event.request.url.match(/^https\:\/\/rosano\.ca\/api/) ? mod._DataPersistenceCacheName : mod._DataVersionCacheName)).put(event.request, networkResponse.clone());
