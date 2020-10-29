@@ -513,23 +513,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 		context('object', function () {
 			
-			it('calls method if formatted', function () {
-				const OLSKMessageSignature = 'OLSKServiceWorker_' + Date.now().toString();
-				const OLSKMessageArguments = [Math.random().toString()];
-
-				deepEqual(Object.assign(uModule(uFakeSelf()), {
-					[OLSKMessageSignature]: (function () {
-						return Array.from(arguments)
-					}),
-				}).OLSKServiceWorkerDidReceiveMessage({
-					data: {
-						OLSKMessageSignature,
-						OLSKMessageArguments,
-					},
-				}), OLSKMessageArguments);
-			});
-			
-			it('does nothing', function () {
+			it('does nothing if not formatted', function () {
 				const item = [];
 				const data = '_OLSKServiceWorker_' + Date.now().toString();
 
@@ -544,6 +528,31 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				});
 
 				deepEqual(item, []);
+			});
+
+			it('calls method and posts message with result', function () {
+				const OLSKMessageSignature = 'OLSKServiceWorker_' + Date.now().toString();
+				const OLSKMessageArguments = [Math.random().toString()];
+
+				deepEqual(Object.assign(uModule(uFakeSelf()), {
+					[OLSKMessageSignature]: (function () {
+						return [...arguments, 'PROCESSED'];
+					}),
+				}).OLSKServiceWorkerDidReceiveMessage({
+					data: {
+						OLSKMessageSignature,
+						OLSKMessageArguments,
+					},
+					source: {
+						postMessage: (function () {
+							return Array.from(arguments);
+						}),
+					},
+				}), [{
+					OLSKMessageSignature,
+					OLSKMessageArguments,
+					OLSKMessageResponse: [OLSKMessageArguments[0], 'PROCESSED'],
+				}]);
 			});
 		
 		});

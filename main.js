@@ -114,7 +114,11 @@ const main = {
 				}
 
 				if (typeof event.data.OLSKMessageSignature === 'string' && event.data.OLSKMessageSignature.startsWith('OLSKServiceWorker_')) {
-					return mod[event.data.OLSKMessageSignature](...event.data.OLSKMessageArguments);
+					return event.source.postMessage({
+						OLSKMessageSignature: event.data.OLSKMessageSignature,
+						OLSKMessageArguments: event.data.OLSKMessageArguments,
+						OLSKMessageResponse: mod[event.data.OLSKMessageSignature](...event.data.OLSKMessageArguments),
+					});
 				}
 			},
 
