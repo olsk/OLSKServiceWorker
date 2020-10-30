@@ -196,7 +196,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 			}, /ErrorInputNotValid/);
 		});
 		
-		it('excludes _DataPersistenceCacheName', async function () {
+		it('pushes _ValuePersistenceCacheURLs', async function () {
 			const item = Math.random().toString();
 
 			const mod = Object.assign(uModule(uFakeSelf()), {
