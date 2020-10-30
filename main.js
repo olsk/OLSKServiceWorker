@@ -166,7 +166,11 @@ const main = {
 	},
 
 	OLSKServiceWorkerViewTemplate () {
-		return `const mod = (function ${ main.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ main.OLSKServiceWorkerInitialization.toString() })(self, mod);`;
+		return `(function() {
+			const mod = (function ${ main.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);
+
+			(function ${ main.OLSKServiceWorkerInitialization.toString() })(self, mod);
+		})();`;
 	},
 
 	OLSKServiceWorkerView (inputData) {

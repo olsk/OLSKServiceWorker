@@ -703,7 +703,11 @@ describe('OLSKServiceWorkerInitialization', function test_OLSKServiceWorkerIniti
 describe('OLSKServiceWorkerViewTemplate', function test_OLSKServiceWorkerViewTemplate() {
 
 	it('returns string', function() {
-		deepEqual(main.OLSKServiceWorkerViewTemplate(), `const mod = (function ${ main.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);\n\n(function ${ main.OLSKServiceWorkerInitialization.toString() })(self, mod);`);
+		deepEqual(main.OLSKServiceWorkerViewTemplate(), `(function() {
+			const mod = (function ${ main.OLSKServiceWorkerModule.toString() })(self, caches, fetch, true);
+
+			(function ${ main.OLSKServiceWorkerInitialization.toString() })(self, mod);
+		})();`);
 	});
 
 });
