@@ -104,9 +104,9 @@ const main = {
 				}());
 			},
 
-			OLSKServiceWorkerDidReceiveMessage (event) {
+			async OLSKServiceWorkerDidReceiveMessage (event) {
 				if (typeof event.data === 'string' && event.data.startsWith('OLSKServiceWorker_')) {
-					return mod[event.data]();
+					return await mod[event.data]();
 				}
 
 				if (typeof event.data !== 'object' || event.data === null) {
@@ -117,7 +117,7 @@ const main = {
 					return event.source.postMessage({
 						OLSKMessageSignature: event.data.OLSKMessageSignature,
 						OLSKMessageArguments: event.data.OLSKMessageArguments,
-						OLSKMessageResponse: mod[event.data.OLSKMessageSignature](...event.data.OLSKMessageArguments),
+						OLSKMessageResponse: await mod[event.data.OLSKMessageSignature](...event.data.OLSKMessageArguments),
 					});
 				}
 			},

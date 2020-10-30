@@ -483,11 +483,11 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 		context('string', function () {
 			
-			it('calls method if formatted', function () {
+			it('calls method if formatted', async function () {
 				const item = Math.random().toString();
 				const data = 'OLSKServiceWorker_' + Date.now().toString();
 
-				deepEqual(Object.assign(uModule(uFakeSelf()), {
+				deepEqual(await Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
 						return item;
 					}),
@@ -496,11 +496,11 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				}), item);
 			});
 			
-			it('does nothing', function () {
+			it('does nothing', async function () {
 				const item = Math.random().toString();
 				const data = '_OLSKServiceWorker_' + Date.now().toString();
 
-				deepEqual(Object.assign(uModule(uFakeSelf()), {
+				deepEqual(await Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
 						return item;
 					}),
@@ -530,11 +530,11 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				deepEqual(item, []);
 			});
 
-			it('calls method and posts message with result', function () {
+			it('calls method and posts message with result', async function () {
 				const OLSKMessageSignature = 'OLSKServiceWorker_' + Date.now().toString();
 				const OLSKMessageArguments = [Math.random().toString()];
 
-				deepEqual(Object.assign(uModule(uFakeSelf()), {
+				deepEqual(await Object.assign(uModule(uFakeSelf()), {
 					[OLSKMessageSignature]: (function () {
 						return [...arguments, 'PROCESSED'];
 					}),
