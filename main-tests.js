@@ -207,6 +207,19 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 			deepEqual(mod._ValuePersistenceCacheURLs, [item]);
 		});
+		
+		it('excludes duplicates', async function () {
+			const item = Math.random().toString();
+
+			const mod = Object.assign(uModule(uFakeSelf()), {
+				_ValuePersistenceCacheURLs: [],
+			});
+			
+			mod.ControlAddPersistenceCacheURL(item);
+			mod.ControlAddPersistenceCacheURL(item);
+
+			deepEqual(mod._ValuePersistenceCacheURLs, [item]);
+		});
 	
 	});
 

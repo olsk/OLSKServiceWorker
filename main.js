@@ -53,6 +53,10 @@ const main = {
 					throw new Error('OLSKErrorInputNotValid');
 				}
 
+				if (mod._ValuePersistenceCacheURLs.includes(inputData)) {
+					return;
+				}
+
 				mod._ValuePersistenceCacheURLs.push(inputData);
 			},
 
