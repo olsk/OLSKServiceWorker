@@ -483,20 +483,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 		context('string', function () {
 			
-			it('calls method if formatted', async function () {
-				const item = Math.random().toString();
-				const data = 'OLSKServiceWorker_' + Date.now().toString();
-
-				deepEqual(await Object.assign(uModule(uFakeSelf()), {
-					[data]: (function () {
-						return item;
-					}),
-				}).OLSKServiceWorkerDidReceiveMessage({
-					data,
-				}), item);
-			});
-			
-			it('does nothing', async function () {
+			it('does nothing if not formatted', async function () {
 				const item = Math.random().toString();
 				const data = '_OLSKServiceWorker_' + Date.now().toString();
 
@@ -507,6 +494,19 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 				}).OLSKServiceWorkerDidReceiveMessage({
 					data,
 				}), undefined);
+			});
+
+			it('calls method', async function () {
+				const item = Math.random().toString();
+				const data = 'OLSKServiceWorker_' + Date.now().toString();
+
+				deepEqual(await Object.assign(uModule(uFakeSelf()), {
+					[data]: (function () {
+						return item;
+					}),
+				}).OLSKServiceWorkerDidReceiveMessage({
+					data,
+				}), item);
 			});
 			
 		});
