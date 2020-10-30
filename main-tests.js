@@ -513,18 +513,20 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 		context('object', function () {
 			
-			it('does nothing if not formatted', function () {
+			it('does nothing if not formatted', async function () {
 				const item = [];
-				const data = '_OLSKServiceWorker_' + Date.now().toString();
+				const OLSKMessageSignature = '_OLSKServiceWorker_' + Date.now().toString();
+				const OLSKMessageArguments = [Math.random().toString()];
 
-				const mod = Object.assign(uModule(uFakeSelf()), {
-					[data]: (function () {
+				await Object.assign(uModule(uFakeSelf()), {
+					[OLSKMessageSignature]: (function () {
 						item.push(null);
 					}),
-				});
-				
-				mod.OLSKServiceWorkerDidReceiveMessage({
-					data,
+				}).OLSKServiceWorkerDidReceiveMessage({
+					data: {
+						OLSKMessageSignature,
+						OLSKMessageArguments,
+					},
 				});
 
 				deepEqual(item, []);
