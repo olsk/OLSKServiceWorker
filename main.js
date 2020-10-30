@@ -105,21 +105,21 @@ const main = {
 			},
 
 			async OLSKServiceWorkerDidReceiveMessage (event) {
-				if (typeof event.data === 'string' && event.data.startsWith('OLSKServiceWorker_')) {
-					return await mod[event.data]();
-				}
+				const OLSKMessageSignature = event.data.OLSKMessageSignature || event.data;
 
-				if (typeof event.data !== 'object' || event.data === null) {
+				if (typeof OLSKMessageSignature !== 'string') {
 					return;
 				}
 
-				if (typeof event.data.OLSKMessageSignature === 'string' && event.data.OLSKMessageSignature.startsWith('OLSKServiceWorker_')) {
-					return event.source.postMessage({
-						OLSKMessageSignature: event.data.OLSKMessageSignature,
-						OLSKMessageArguments: event.data.OLSKMessageArguments,
-						OLSKMessageResponse: await mod[event.data.OLSKMessageSignature](...event.data.OLSKMessageArguments),
-					});
+				if (!OLSKMessageSignature.startsWith('OLSKServiceWorker_')) {
+					return;
 				}
+
+				return event.source.postMessage({
+					OLSKMessageSignature,
+					OLSKMessageArguments: event.data.OLSKMessageArguments,
+					OLSKMessageResponse: await mod[OLSKMessageSignature](...[].concat(event.data.OLSKMessageArguments || [])),
+				});
 			},
 
 			OLSKServiceWorker_ClearVersionCache () {

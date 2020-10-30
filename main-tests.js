@@ -484,19 +484,21 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 		context('string', function () {
 			
 			it('does nothing if not formatted', async function () {
-				const item = Math.random().toString();
+				const item = [];
 				const data = '_OLSKServiceWorker_' + Date.now().toString();
 
-				deepEqual(await Object.assign(uModule(uFakeSelf()), {
+				await Object.assign(uModule(uFakeSelf()), {
 					[data]: (function () {
-						return item;
+						item.push(null);
 					}),
 				}).OLSKServiceWorkerDidReceiveMessage({
 					data,
-				}), undefined);
+				})
+
+				deepEqual(item, []);
 			});
 
-			it('calls method', async function () {
+			it('calls method and posts message with result', async function () {
 				const item = Math.random().toString();
 				const data = 'OLSKServiceWorker_' + Date.now().toString();
 
@@ -506,7 +508,16 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 					}),
 				}).OLSKServiceWorkerDidReceiveMessage({
 					data,
-				}), item);
+					source: {
+						postMessage: (function () {
+							return Array.from(arguments);
+						}),
+					},
+				}), [{
+					OLSKMessageSignature: data,
+					OLSKMessageArguments: undefined,
+					OLSKMessageResponse: item,
+				}]);
 			});
 			
 		});
