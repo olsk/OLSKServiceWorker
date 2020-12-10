@@ -523,7 +523,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 					data,
 					source: {
 						postMessage: (function () {
-							return Array.from(arguments);
+							return [...arguments];
 						}),
 					},
 				}), [{
@@ -571,7 +571,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 					},
 					source: {
 						postMessage: (function () {
-							return Array.from(arguments);
+							return [...arguments];
 						}),
 					},
 				}), [{
@@ -626,7 +626,7 @@ describe('OLSKServiceWorkerModule', function test_OLSKServiceWorkerModule() {
 
 			const mod = Object.assign(uModule(uFakeSelf()), {
 				ControlAddPersistenceCacheURL: (function () {
-					return Array.from(arguments);
+					return [...arguments];
 				}),
 			});
 			
