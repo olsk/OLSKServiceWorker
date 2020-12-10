@@ -912,7 +912,7 @@ describe('OLSKServiceWorkerRecipes', function test_OLSKServiceWorkerRecipes() {
 		}));
 	});
 
-	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
+	context('ParamSpecUI', function () {
 
 		it('includes all recipes', function () {
 			deepEqual(main.OLSKServiceWorkerRecipes(uWindow(), uNavigator(), uLocalized, true).map(function (e) {
