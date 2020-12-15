@@ -210,6 +210,24 @@ const main = {
 		};
 	},
 
+	OLSKServiceWorkerLauncherItemReload (param1, OLSKLocalized) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeSignature: 'OLSKServiceWorkerLauncherItemReload',
+			LCHRecipeName: OLSKLocalized('OLSKServiceWorkerLauncherItemReloadText'),
+			LCHRecipeCallback () {
+				return param1.location.reload();
+			},
+		};
+	},
+
 	OLSKServiceWorkerLauncherItemDebugForceUpdate (param1, param2, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -259,6 +277,7 @@ const main = {
 
 		return [
 			main.OLSKServiceWorkerLauncherFakeItemProxy(),
+			main.OLSKServiceWorkerLauncherItemReload(param1, param3),
 			main.OLSKServiceWorkerLauncherItemDebugForceUpdate(param1, param2, param3),
 		].filter(function (e) {
 			if (param4) {

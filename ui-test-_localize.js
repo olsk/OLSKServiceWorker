@@ -23,6 +23,10 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 			browser.assert.text(OLSKServiceWorkerUpdateAlertReloadButton, uLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText'));
 		});
 
+		it('localizes OLSKServiceWorkerLauncherItemReload', function () {
+			return browser.assert.OLSKLauncherItemText('OLSKServiceWorkerLauncherItemReload', uLocalized('OLSKServiceWorkerLauncherItemReloadText'));
+		});
+
 		it('localizes OLSKServiceWorkerLauncherItemDebugForceUpdate', function () {
 			return browser.assert.OLSKLauncherItemText('OLSKServiceWorkerLauncherItemDebugForceUpdate', uLocalized('OLSKServiceWorkerLauncherItemDebugForceUpdateText'));
 		});

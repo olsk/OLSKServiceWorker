@@ -796,6 +796,48 @@ describe('OLSKServiceWorkerLauncherFakeItemProxy', function test_OLSKServiceWork
 
 });
 
+describe('OLSKServiceWorkerLauncherItemReload', function test_OLSKServiceWorkerLauncherItemReload() {
+
+	it('throws if param1 not window', function () {
+		throws(function () {
+			main.OLSKServiceWorkerLauncherItemReload({}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not OLSKLocalized', function () {
+		throws(function () {
+			main.OLSKServiceWorkerLauncherItemReload(uWindow(), null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = main.OLSKServiceWorkerLauncherItemReload(uWindow(), uLocalized);
+
+		deepEqual(item, {
+			LCHRecipeSignature: 'OLSKServiceWorkerLauncherItemReload',
+			LCHRecipeName: uLocalized('OLSKServiceWorkerLauncherItemReloadText'),
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls param1.location.reload', function () {
+			const reload = Math.random().toString();
+
+			deepEqual(main.OLSKServiceWorkerLauncherItemReload(uWindow({
+				location: {
+					reload: (function () {
+						return reload;
+					}),
+				},
+			}), uLocalized).LCHRecipeCallback(), reload);
+		});
+
+	});
+
+});
+
 describe('OLSKServiceWorkerLauncherItemDebugForceUpdate', function test_OLSKServiceWorkerLauncherItemDebugForceUpdate() {
 
 	it('throws if param1 not window', function () {
