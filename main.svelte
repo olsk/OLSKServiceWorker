@@ -104,20 +104,36 @@ mod.LifecycleModuleDidMount();
 {#if mod._ValueUpdateAlertIsVisible }
 <div class="OLSKServiceWorkerUpdateAlert" on:click={ () => mod._ValueUpdateAlertIsVisible = false }>
 	<span class="OLSKServiceWorkerUpdateAlertLabel">{ OLSKLocalized('OLSKServiceWorkerUpdateAlertLabelText') }</span>
-	<button class="OLSKServiceWorkerUpdateAlertReloadButton" on:click={ mod.InterfaceReloadButtonDidClick }>{ OLSKLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText') }</button>
+	<button class="OLSKServiceWorkerUpdateAlertReloadButton OLSKDecorPress OLSKDecorPressCall" on:click={ mod.InterfaceReloadButtonDidClick }>{ OLSKLocalized('OLSKServiceWorkerUpdateAlertReloadButtonText') }</button>
 </div>
 {/if}
 
 <style type="text/css">
 .OLSKServiceWorkerUpdateAlert {
+	--OLSKCommonForeground: #fd66ff;
+	--OLSKServiceWorkerUpdateAlertBorderWidth: 1.5px;
+
 	padding: 10px;
-	border: 1px solid #7f7f7f;
+	border: var(--OLSKServiceWorkerUpdateAlertBorderWidth) solid var(--OLSKCommonForeground);
 
-	position: fixed;
-	top: 0;
-	right: 0;
-
-	background: #f3f3f3;
+	background: #8000ff;
+	color: var(--OLSKCommonForeground);
 	font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+
+	/* OLSKServiceWorkerUpdateAlertFlexbox:Parent */
+	display: flex;
+	align-items: center;
+}
+
+.OLSKServiceWorkerUpdateAlertLabel {
+	/* OLSKServiceWorkerUpdateAlertFlexbox:Child */
+	flex-grow: 1;
+}
+
+.OLSKServiceWorkerUpdateAlertReloadButton {
+	padding: 5px;
+	border-width: var(--OLSKServiceWorkerUpdateAlertBorderWidth) !important;
+
+	font-weight: normal;
 }
 </style>
