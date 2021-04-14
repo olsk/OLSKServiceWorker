@@ -113,8 +113,8 @@ mod.LifecycleModuleDidMount();
 	--OLSKCommonForeground: #fd66ff;
 	--OLSKServiceWorkerUpdateAlertBorderWidth: 1.5px;
 
-	padding: 10px;
-	border: var(--OLSKServiceWorkerUpdateAlertBorderWidth) solid var(--OLSKCommonForeground);
+	padding: 7px;
+	border-top: var(--OLSKServiceWorkerUpdateAlertBorderWidth) solid var(--OLSKCommonForeground);
 
 	background: #8000ff;
 	color: var(--OLSKCommonForeground);
@@ -135,5 +135,6 @@ mod.LifecycleModuleDidMount();
 	border-width: var(--OLSKServiceWorkerUpdateAlertBorderWidth) !important;
 
 	font-weight: normal;
+	font-size: inherit;
 }
 </style>
