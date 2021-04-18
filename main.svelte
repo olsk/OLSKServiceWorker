@@ -125,6 +125,14 @@ mod.LifecycleModuleDidMount();
 	align-items: center;
 }
 
+@media screen and (max-width: 760px) {
+
+.OLSKServiceWorkerUpdateAlert {
+	padding: 10px;
+}
+
+}
+
 .OLSKServiceWorkerUpdateAlertLabel {
 	/* OLSKServiceWorkerUpdateAlertFlexbox:Child */
 	flex-grow: 1;
