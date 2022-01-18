@@ -5,7 +5,7 @@ Object.entries({
 	OLSKServiceWorkerUpdateAlertLabel: '.OLSKServiceWorkerUpdateAlertLabel',
 	OLSKServiceWorkerUpdateAlertReloadButton: '.OLSKServiceWorkerUpdateAlertReloadButton',
 }).map(function (e) {
-	return global[e.shift()]  = e.pop();
+	return global[e.shift()] = e.pop();
 });
 
 describe('OLSKServiceWorker_Access', function () {
